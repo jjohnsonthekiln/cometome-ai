@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+
+    <!-- Background: deep dark crimson radial -->
+    <radialGradient id="bgGrad" cx="50%" cy="44%" r="62%" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#3A0C14"/>
+      <stop offset="100%" stop-color="#140308"/>
+    </radialGradient>
+
+    <!-- Medical cross: light rose center fading to deep crimson edges -->
+    <radialGradient id="crossGrad" cx="512" cy="468" r="390" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#F2C8CC"/>
+      <stop offset="18%"  stop-color="#E07080"/>
+      <stop offset="52%"  stop-color="#C03040"/>
+      <stop offset="100%" stop-color="#7A1522"/>
+    </radialGradient>
+
+    <!-- White cross glow blur -->
+    <filter id="crossGlow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="20" result="blur"/>
+    </filter>
+
+    <!-- Tighter inner glow -->
+    <filter id="crossGlowTight" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur"/>
+    </filter>
+
+  </defs>
+
+  <!-- Background rounded square (iOS icon shape) -->
+  <rect width="1024" height="1024" rx="224" ry="224" fill="url(#bgGrad)"/>
+
+  <!-- Subtle circle outline -->
+  <circle cx="512" cy="512" r="402" fill="none" stroke="#8B2030" stroke-width="1.5" opacity="0.45"/>
+
+  <!-- Medical plus cross — vertical arm -->
+  <rect x="338" y="148" width="348" height="728" rx="68" fill="url(#crossGrad)"/>
+  <!-- Medical plus cross — horizontal arm -->
+  <rect x="148" y="338" width="728" height="348" rx="68" fill="url(#crossGrad)"/>
+
+  <!-- White Latin cross — wide outer glow -->
+  <g filter="url(#crossGlow)" opacity="0.55">
+    <rect x="476" y="222" width="72" height="582" rx="10" fill="white"/>
+    <rect x="334" y="408" width="356" height="72" rx="10" fill="white"/>
+  </g>
+
+  <!-- White Latin cross — tight inner glow -->
+  <g filter="url(#crossGlowTight)" opacity="0.7">
+    <rect x="476" y="222" width="72" height="582" rx="10" fill="white"/>
+    <rect x="334" y="408" width="356" height="72" rx="10" fill="white"/>
+  </g>
+
+  <!-- White Latin cross — sharp foreground -->
+  <rect x="476" y="222" width="72" height="582" rx="10" fill="white"/>
+  <rect x="334" y="408" width="356" height="72" rx="10" fill="white"/>
+
+</svg>
