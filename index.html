@@ -1,254 +1,353 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Great Physician — Biblical Counsel for Your Soul</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <script src="https://www.paypal.com/sdk/js?client-id=BAA3YKxGNKKE_VvtPuGUCFnlPFu-L8YO6edcnWXIDcm3fjw4asPVAEfjKxk9LoCzYMK74yRj6AJ8K7yVUc&components=hosted-buttons&enable-funding=venmo&currency=USD"></script>
-  <style>
-    :root { --cream: #faf8f4; --surface: #f0ebe0; --border: #e0d8cc; --gold: #c9a84c; --gold-dark: #8b5e1a; --text-dark: #2c1a0e; --text-mid: #7a6a58; --navy: #1e3a5f; --navy-dark: #0d1b2e; }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: var(--text-dark); overflow-x: hidden; }
-    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 18px 48px; display: flex; align-items: center; justify-content: space-between; background: rgba(250,248,244,0.97); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
-    .nav-brand { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: var(--text-dark); text-decoration: none; }
-    .nav-links { display: flex; gap: 32px; list-style: none; }
-    .nav-links a { color: var(--text-mid); text-decoration: none; font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; transition: color 0.2s; }
-    .nav-links a:hover { color: var(--gold-dark); }
-    .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 120px 24px 80px; background: radial-gradient(ellipse at 50% 30%, #f0ebe0 0%, #faf8f4 100%); }
-    .hero-content { max-width: 800px; }
-    .hero-eyebrow { font-size: 0.72rem; letter-spacing: 0.4em; color: var(--gold-dark); text-transform: uppercase; margin-bottom: 24px; }
-    .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem, 7vw, 6rem); font-weight: 300; line-height: 1.05; color: var(--text-dark); margin-bottom: 24px; }
-    .hero-title em { font-style: italic; color: var(--gold-dark); }
-    .hero-body { font-size: 1rem; line-height: 1.8; color: var(--text-mid); max-width: 560px; margin: 0 auto 48px; font-weight: 300; }
-    .hero-cta { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
-    .btn-primary { background: var(--gold); color: #fff; padding: 16px 36px; border-radius: 3px; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none; transition: all 0.3s; border: none; cursor: pointer; display: inline-block; }
-    .btn-primary:hover { background: #e0ba5f; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,168,76,0.3); }
-    .btn-secondary { background: transparent; color: var(--gold-dark); padding: 16px 36px; border-radius: 3px; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none; border: 1px solid var(--border); transition: all 0.3s; cursor: pointer; display: inline-block; }
-    .btn-secondary:hover { background: rgba(139,94,26,0.06); transform: translateY(-2px); }
-    .scripture-block { padding: 80px 24px; text-align: center; background: linear-gradient(180deg, transparent, rgba(201,168,76,0.06), transparent); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-    .scripture-text { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.4rem, 3vw, 2.2rem); font-weight: 300; font-style: italic; color: var(--gold-dark); max-width: 700px; margin: 0 auto 20px; line-height: 1.5; }
-    .scripture-ref { font-size: 0.75rem; letter-spacing: 0.3em; color: var(--gold); text-transform: uppercase; }
-    section { padding: 100px 24px; max-width: 1100px; margin: 0 auto; }
-    .section-label { font-size: 0.7rem; letter-spacing: 0.4em; color: var(--gold-dark); text-transform: uppercase; margin-bottom: 16px; }
-    .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 300; line-height: 1.2; color: var(--text-dark); margin-bottom: 24px; }
-    .section-body { font-size: 0.95rem; line-height: 1.9; color: var(--text-mid); font-weight: 300; max-width: 640px; }
-    .divider { width: 60px; height: 1px; background: var(--gold); margin: 32px 0; }
-    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2px; background: var(--border); border: 1px solid var(--border); margin-top: 60px; }
-    .feature { padding: 40px; background: var(--surface); transition: background 0.3s; }
-    .feature:hover { background: var(--cream); }
-    .feature-icon { font-size: 1.8rem; margin-bottom: 20px; }
-    .feature-title { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--text-dark); margin-bottom: 12px; }
-    .feature-body { font-size: 0.85rem; line-height: 1.8; color: var(--text-mid); font-weight: 300; }
-    .blog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 60px; }
-    .blog-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 32px; transition: all 0.3s; text-decoration: none; display: block; }
-    .blog-card:hover { border-color: var(--gold); background: var(--cream); transform: translateY(-3px); }
-    .blog-date { font-size: 0.68rem; letter-spacing: 0.25em; color: var(--gold-dark); text-transform: uppercase; margin-bottom: 12px; }
-    .blog-title { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--text-dark); margin-bottom: 12px; line-height: 1.4; }
-    .blog-excerpt { font-size: 0.82rem; line-height: 1.8; color: var(--text-mid); font-weight: 300; }
-    .blog-read-more { font-size: 0.72rem; letter-spacing: 0.2em; color: var(--gold-dark); text-transform: uppercase; margin-top: 16px; display: inline-block; }
-    .download-section { text-align: center; padding: 100px 24px; background: radial-gradient(ellipse at center, rgba(201,168,76,0.08) 0%, transparent 70%); }
-    .store-buttons { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 48px; }
-    .store-btn { display: flex; align-items: center; gap: 14px; padding: 14px 28px; border: 1px solid var(--border); border-radius: 4px; text-decoration: none; color: var(--text-dark); transition: all 0.3s; background: var(--surface); }
-    .store-btn:hover { border-color: var(--gold); transform: translateY(-2px); }
-    .store-btn-label { font-size: 0.65rem; letter-spacing: 0.2em; color: var(--text-mid); text-transform: uppercase; }
-    .store-btn-name { font-size: 1rem; font-weight: 500; }
-    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-    @media (max-width: 768px) { .about-grid { grid-template-columns: 1fr; gap: 40px; } nav { padding: 16px 20px; } .nav-links { display: none; } }
-    .donate-block { background: rgba(201,168,76,0.06); border: 1px solid rgba(201,168,76,0.2); border-radius: 4px; padding: 48px; text-align: center; max-width: 560px; margin: 60px auto 0; }
-    .donate-block p { font-size: 0.9rem; line-height: 1.8; color: var(--text-mid); margin-bottom: 28px; font-weight: 300; }
-    .contact-form { max-width: 560px; margin: 48px auto 0; }
-    .form-group { margin-bottom: 24px; }
-    .form-group label { display: block; font-size: 0.72rem; letter-spacing: 0.25em; color: var(--gold-dark); text-transform: uppercase; margin-bottom: 8px; }
-    .form-group input, .form-group textarea { width: 100%; padding: 14px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 3px; color: var(--text-dark); font-family: 'Montserrat', sans-serif; font-size: 0.9rem; font-weight: 300; outline: none; transition: border-color 0.2s; }
-    .form-group input:focus, .form-group textarea:focus { border-color: var(--gold); }
-    .form-group textarea { height: 140px; resize: vertical; }
-    footer { padding: 48px 24px; text-align: center; border-top: 1px solid var(--border); background: var(--surface); }
-    footer p { font-size: 0.78rem; color: var(--text-mid); letter-spacing: 0.1em; line-height: 2; }
-    footer a { color: var(--gold-dark); text-decoration: none; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#18150F">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Come to Me</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #18150F; --bg-3: #2A2520;
+  --cream: #EDE0C4; --gold: #C9A96E; --gold-dim: #7a6b4a;
+  --crimson: #C03040; --crimson-dk: #8B1520;
+  --border: rgba(201,169,110,0.12);
+  --bot-bg: #F0E8D4; --bot-text: #1C1812;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans: 'Lato', sans-serif;
+}
+html, body { height: 100%; background: var(--bg); color: var(--cream); font-family: var(--sans); font-weight: 300; -webkit-font-smoothing: antialiased; overscroll-behavior: none; }
+#app { display: flex; flex-direction: column; height: 100dvh; max-width: 680px; margin: 0 auto; }
+
+/* ── Header ── */
+header { display: flex; align-items: center; gap: 12px; padding: 14px 20px 13px; padding-top: calc(14px + env(safe-area-inset-top)); background: var(--bg); border-bottom: 0.5px solid var(--border); flex-shrink: 0; position: relative; }
+.h-logo { width: 36px; height: 36px; flex-shrink: 0; }
+.h-text { flex: 1; }
+.h-text h1 { font-family: var(--serif); font-weight: 300; font-size: 22px; color: var(--cream); line-height: 1; }
+.h-text p  { font-family: var(--serif); font-style: italic; font-size: 12px; color: var(--gold-dim); margin-top: 2px; }
+
+/* ── Custom Language Picker ── */
+#lang-btn {
+  background: var(--bg-3);
+  border: 0.5px solid rgba(201,169,110,0.25);
+  border-radius: 8px;
+  color: var(--gold);
+  font-family: var(--sans);
+  font-size: 18px;
+  padding: 5px 10px;
+  cursor: pointer;
+  user-select: none;
+  flex-shrink: 0;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+#lang-btn:hover { border-color: rgba(201,169,110,0.5); }
+
+#lang-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 14px;
+  background: #201D16;
+  border: 0.5px solid rgba(201,169,110,0.25);
+  border-radius: 10px;
+  z-index: 100;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+  max-height: 320px;
+  overflow-y: auto;
+  width: 200px;
+  -webkit-overflow-scrolling: touch;
+}
+#lang-dropdown.open { display: block; }
+
+.lang-opt {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--gold-dim);
+  transition: background 0.1s;
+  border-bottom: 0.5px solid rgba(201,169,110,0.06);
+}
+.lang-opt:last-child { border-bottom: none; }
+.lang-opt:hover { background: rgba(201,169,110,0.08); color: var(--cream); }
+.lang-opt.active { color: var(--gold); }
+.lang-flag { font-size: 20px; line-height: 1; flex-shrink: 0; }
+.lang-name { font-size: 13px; }
+
+/* ── Messages ── */
+#messages { flex: 1; overflow-y: auto; padding: 24px 16px 12px; display: flex; flex-direction: column; gap: 14px; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+.msg { display: flex; flex-direction: column; max-width: 86%; animation: rise 0.22s ease forwards; opacity: 0; }
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.msg.bot  { align-self: flex-start; }
+.msg.user { align-self: flex-end; }
+.bubble { padding: 12px 16px; font-size: 15px; line-height: 1.7; white-space: pre-wrap; word-break: break-word; }
+.msg.bot  .bubble { background: var(--bot-bg); color: var(--bot-text); border-radius: 18px 18px 18px 4px; font-family: var(--sans); font-weight: 300; }
+.msg.user .bubble { background: var(--bg-3); color: var(--cream); border-radius: 18px 18px 4px 18px; border: 0.5px solid rgba(201,169,110,0.18); }
+.typing { display: flex; gap: 5px; align-items: center; padding: 14px 18px; background: var(--bot-bg); border-radius: 18px 18px 18px 4px; width: fit-content; }
+.dot { width: 7px; height: 7px; border-radius: 50%; background: #6a5a45; animation: pulse 1.3s infinite ease-in-out; }
+.dot:nth-child(2) { animation-delay: 0.18s; }
+.dot:nth-child(3) { animation-delay: 0.36s; }
+@keyframes pulse { 0%, 60%, 100% { transform: scale(0.75); opacity: 0.3; } 30% { transform: scale(1); opacity: 0.8; } }
+.err { align-self: center; font-size: 13px; color: #d07070; background: rgba(192,48,64,0.1); border: 0.5px solid rgba(192,48,64,0.25); padding: 9px 14px; border-radius: 10px; max-width: 80%; text-align: center; }
+
+/* ── Input ── */
+#input-area { padding: 10px 14px; padding-bottom: calc(10px + env(safe-area-inset-bottom)); border-top: 0.5px solid var(--border); background: var(--bg); flex-shrink: 0; }
+.input-row { display: flex; align-items: flex-end; gap: 8px; background: var(--bg-3); border: 0.5px solid rgba(201,169,110,0.2); border-radius: 26px; padding: 8px 8px 8px 16px; transition: border-color 0.15s; }
+.input-row:focus-within { border-color: rgba(201,169,110,0.4); }
+textarea { flex: 1; background: transparent; border: none; outline: none; color: var(--cream); font-family: var(--sans); font-weight: 300; font-size: 15px; line-height: 1.5; resize: none; max-height: 120px; min-height: 22px; padding: 1px 0; caret-color: var(--gold); }
+textarea::placeholder { color: var(--gold-dim); opacity: 0.7; }
+#send-btn { width: 36px; height: 36px; flex-shrink: 0; border: none; border-radius: 50%; background: var(--crimson); color: #fff; cursor: pointer; display: grid; place-items: center; transition: background 0.15s, transform 0.1s, opacity 0.15s; }
+#send-btn:hover:not(:disabled)  { background: var(--crimson-dk); }
+#send-btn:active:not(:disabled) { transform: scale(0.91); }
+#send-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+#send-btn svg { width: 15px; height: 15px; }
+#messages::-webkit-scrollbar { width: 3px; }
+#messages::-webkit-scrollbar-track { background: transparent; }
+#messages::-webkit-scrollbar-thumb { background: rgba(201,169,110,0.2); border-radius: 2px; }
+</style>
 </head>
 <body>
+<div id="app">
+  <header>
+    <svg class="h-logo" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="hBg" cx="50%" cy="44%" r="62%"><stop offset="0%" stop-color="#3A0C14"/><stop offset="100%" stop-color="#140308"/></radialGradient>
+        <radialGradient id="hCx" cx="512" cy="468" r="390" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#F2C8CC"/><stop offset="30%" stop-color="#D04050"/><stop offset="100%" stop-color="#7A1522"/></radialGradient>
+      </defs>
+      <rect width="1024" height="1024" rx="224" fill="url(#hBg)"/>
+      <rect x="338" y="148" width="348" height="728" rx="68" fill="url(#hCx)"/>
+      <rect x="148" y="338" width="728" height="348" rx="68" fill="url(#hCx)"/>
+      <rect x="476" y="222" width="72" height="582" rx="10" fill="white"/>
+      <rect x="334" y="408" width="356" height="72" rx="10" fill="white"/>
+    </svg>
+    <div class="h-text">
+      <h1 id="h-title">Come to Me</h1>
+      <p>Matthew 11:28</p>
+    </div>
+    <button id="lang-btn" aria-haspopup="listbox">
+      <span id="lang-flag">🇬🇧</span>
+      <span style="font-size:11px; color: var(--gold-dim);">▾</span>
+    </button>
+    <div id="lang-dropdown" role="listbox"></div>
+  </header>
 
-<nav>
-  <a href="#" class="nav-brand">Great Physician</a>
-  <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="blog.html">Blog</a></li>
-    <li><a href="#download">Download</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#donate">Give</a></li>
-    <li><a href="/counsel" style="color: var(--gold-dark); font-weight: 600;">Join as Counselor</a></li>
-  </ul>
-</nav>
+  <div id="messages"></div>
 
-<div class="hero">
-  <div class="hero-content">
-    <img src="app-icon.png" alt="Great Physician" style="width:120px; height:120px; margin-bottom:32px;">
-    <p class="hero-eyebrow">The Kiln Ministries Presents</p>
-    <h1 class="hero-title">There is a Physician<br>who knows<br><em>every wound</em><br>of your heart.</h1>
-    <p class="hero-body">Great Physician is a free biblical counseling app offering Scripture-saturated guidance through four AI companions — Barnabas, Lydia, Ethan, and Anna — trained in the nouthetic counseling tradition. Drawing on centuries of biblical wisdom and the rich heritage of Christ-centered soul care, each companion is equipped to meet you where you are — with discernment, compassion, and the truth that sets people free. Real hope. From God's Word.</p>
-    <div class="hero-cta">
-      <a href="#download" class="btn-primary">Download Free</a>
-      <a href="#about" class="btn-secondary">Learn More</a>
+  <div id="input-area">
+    <div class="input-row">
+      <textarea id="msg-input" placeholder="Ask anything..." rows="1"></textarea>
+      <button id="send-btn" disabled aria-label="Send">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/>
+        </svg>
+      </button>
     </div>
   </div>
 </div>
 
-<div class="scripture-block">
-  <p class="scripture-text">"Those who are well have no need of a physician, but those who are sick. I came not to call the righteous, but sinners."</p>
-  <p class="scripture-ref">Mark 2:17</p>
-</div>
+<script>
+'use strict';
 
-<section id="about">
-  <p class="section-label">Meet Your Counselors</p>
-  <h2 class="section-title">Choose the voice that<br>will guide you through God's Word.</h2>
-  <div class="divider"></div>
-  <p class="section-body">All four companions are grounded in Scripture and trained in the nouthetic counseling tradition. Each will speak the truth in love — and each will always point you to Jesus Christ, the Great Physician.</p>
-  <div class="features" style="margin-top: 40px;">
-    <div class="feature">
-      <img src="barnabas.png" alt="Barnabas" style="width:80px; height:80px; border-radius:50%; border:2px solid var(--gold); margin-bottom:20px;">
-      <div class="feature-title">Barnabas</div>
-      <p style="font-size:0.72rem; letter-spacing:0.2em; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Acts 4:36</p>
-      <div class="feature-body">A son of encouragement. Barnabas walks alongside you with truth and grace from God's Word — warm, honest, and always pointing to Christ.</div>
-    </div>
-    <div class="feature">
-      <img src="ethan.png" alt="Ethan" style="width:80px; height:80px; border-radius:50%; border:2px solid var(--gold); margin-bottom:20px;">
-      <div class="feature-title">Ethan</div>
-      <p style="font-size:0.72rem; letter-spacing:0.2em; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">1 Kings 4:31 · Psalm 89</p>
-      <div class="feature-body">A man of deep wisdom. Ethan anchors you in God's covenant faithfulness — steadfast, theologically rich, and rooted in the enduring promises of Scripture.</div>
-    </div>
-    <div class="feature">
-      <img src="lydia.png" alt="Lydia" style="width:80px; height:80px; border-radius:50%; border:2px solid var(--gold); margin-bottom:20px;">
-      <div class="feature-title">Lydia</div>
-      <p style="font-size:0.72rem; letter-spacing:0.2em; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Acts 16:14</p>
-      <div class="feature-body">A woman of prayer and faith. Lydia listens with a caring heart, makes you feel deeply known, and gently leads you to the healing found in Jesus.</div>
-    </div>
-    <div class="feature">
-      <img src="anna.png" alt="Anna" style="width:80px; height:80px; border-radius:50%; border:2px solid var(--gold); margin-bottom:20px;">
-      <div class="feature-title">Anna</div>
-      <p style="font-size:0.72rem; letter-spacing:0.2em; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Luke 2:36–38</p>
-      <div class="feature-body">A godly woman devoted to prayer and fasting. Anna helps you see Christ more clearly — turning your eyes from the circumstances of life to the Savior who redeems them.</div>
-    </div>
-  </div>
-  <div class="features">
-    <div class="feature"><div class="feature-icon">✝️</div><div class="feature-title">Scripture-Saturated Counsel</div><div class="feature-body">Every response is grounded in God's Word. Your companion draws from a curated library of nouthetic counseling resources to speak to your specific situation.</div></div>
-    <div class="feature"><div class="feature-icon">🕊️</div><div class="feature-title">Gospel-Centered</div><div class="feature-body">Jesus Christ is the Great Physician. All four companions always point you to Him — the only true healer of the human heart.</div></div>
-    <div class="feature"><div class="feature-icon">🎵</div><div class="feature-title">Music for the Soul</div><div class="feature-body">Your companion may recommend hymns and worship songs that speak to your situation — with links to listen immediately.</div></div>
-    <div class="feature"><div class="feature-icon">📅</div><div class="feature-title">Human Counselor Access</div><div class="feature-body">When you need more, your companion connects you directly with a certified biblical counselor for personal, ongoing care.</div></div>
-  </div>
-</section>
+const LANGS = [
+  { code:'en', flag:'🇬🇧', name:'English',    title:'Come to Me',         ph:'Ask anything...',           inst:'Respond in English.',
+    open:"You're here for a reason — maybe curiosity, maybe a question that won't leave you alone, maybe something harder than that. Whatever brought you, I'm glad.\n\nThere's one question that matters more than any other: Who is Jesus, and what does He have to do with you? Let's talk." },
+  { code:'it', flag:'🇮🇹', name:'Italiano',    title:'Vieni a Me',          ph:'Chiedi qualcosa...',        inst:'Respond entirely in Italian (Italiano).',
+    open:"Sei qui per un motivo — forse per curiosità, forse per una domanda che non ti lascia in pace, forse per qualcosa di più profondo. Qualunque cosa ti abbia portato qui, sono contento che tu sia venuto.\n\nC'è una domanda che conta più di qualsiasi altra: Chi è Gesù, e cosa ha a che fare con te? Parliamone." },
+  { code:'es', flag:'🇪🇸', name:'Español',     title:'Ven a Mí',            ph:'Pregunta algo...',          inst:'Respond entirely in Spanish (Español).',
+    open:"Estás aquí por una razón — quizás por curiosidad, quizás por una pregunta que no te deja en paz, quizás por algo más profundo. Sea lo que sea que te trajo, me alegra que hayas venido.\n\nHay una pregunta que importa más que ninguna otra: ¿Quién es Jesús, y qué tiene que ver contigo? Hablemos." },
+  { code:'pt', flag:'🇧🇷', name:'Português',   title:'Vinde a Mim',         ph:'Faça uma pergunta...',      inst:'Respond entirely in Portuguese (Português).',
+    open:"Você está aqui por uma razão — talvez por curiosidade, talvez por uma pergunta que não te deixa em paz, talvez por algo mais profundo. Seja o que for que te trouxe, fico feliz que você veio.\n\nHá uma pergunta que importa mais do que qualquer outra: Quem é Jesus, e o que Ele tem a ver com você? Vamos conversar." },
+  { code:'fr', flag:'🇫🇷', name:'Français',    title:'Venez à Moi',         ph:'Posez une question...',     inst:'Respond entirely in French (Français).',
+    open:"Vous êtes ici pour une raison — peut-être par curiosité, peut-être pour une question qui ne vous quitte pas, peut-être pour quelque chose de plus profond. Quoi qu'il vous ait amené ici, je suis heureux que vous soyez venu.\n\nIl y a une question qui compte plus que toute autre : Qui est Jésus, et qu'a-t-il à voir avec vous ? Parlons-en." },
+  { code:'de', flag:'🇩🇪', name:'Deutsch',     title:'Kommt zu Mir',        ph:'Stellen Sie eine Frage...', inst:'Respond entirely in German (Deutsch).',
+    open:"Sie sind aus einem Grund hier — vielleicht aus Neugier, vielleicht wegen einer Frage, die Sie nicht loslässt, vielleicht wegen etwas Tieferem. Was auch immer Sie hierher geführt hat — ich bin froh, dass Sie da sind.\n\nEs gibt eine Frage, die mehr zählt als jede andere: Wer ist Jesus, und was hat Er mit Ihnen zu tun? Lassen Sie uns reden." },
+  { code:'ru', flag:'🇷🇺', name:'Русский',     title:'Придите ко Мне',      ph:'Задайте вопрос...',         inst:'Respond entirely in Russian (Русский).',
+    open:"Вы здесь не случайно — возможно, из любопытства, возможно, с вопросом, который не даёт покоя, возможно, с чем-то более глубоким. Что бы ни привело вас сюда, я рад, что вы пришли.\n\nЕсть один вопрос, который важнее всех остальных: Кто такой Иисус, и какое Он имеет к вам отношение? Давайте поговорим." },
+  { code:'zh', flag:'🇨🇳', name:'中文',         title:'来就我',               ph:'请提问...',                  inst:'Respond entirely in Simplified Chinese (简体中文).',
+    open:"你来这里是有原因的——也许是出于好奇，也许是有一个问题一直困扰着你，也许是某种更深的东西。无论是什么带你来到这里，我都很高兴你来了。\n\n有一个问题比其他任何问题都重要：耶稣是谁，他与你有什么关系？我们来谈谈。" },
+  { code:'ja', flag:'🇯🇵', name:'日本語',       title:'我に来たれ',           ph:'質問してください...',        inst:'Respond entirely in Japanese (日本語).',
+    open:"あなたがここに来たのには理由があります——好奇心からかもしれない、頭から離れない疑問があるからかもしれない、あるいはもっと深いものがあるからかもしれない。何があなたをここに連れてきたとしても、来てくださってうれしいです。\n\nどんな問いよりも大切な問いがあります：イエスとは誰であり、あなたとどのような関係があるのでしょうか？話し合いましょう。" },
+  { code:'ko', flag:'🇰🇷', name:'한국어',       title:'내게로 오라',          ph:'질문하세요...',              inst:'Respond entirely in Korean (한국어).',
+    open:"당신이 여기 온 데는 이유가 있습니다 — 호기심 때문일 수도, 머릿속을 떠나지 않는 질문 때문일 수도, 아니면 더 깊은 무언가 때문일 수도 있습니다. 무엇이 당신을 이곳에 데려왔든, 오신 것을 기쁘게 생각합니다.\n\n다른 무엇보다 중요한 질문이 하나 있습니다: 예수님은 누구이시며, 당신과 어떤 관계가 있으신가요? 이야기해 봅시다." },
+  { code:'ar', flag:'🇸🇦', name:'العربية',     title:'تعالوا إليّ',          ph:'اطرح سؤالاً...',            inst:'Respond entirely in Arabic (العربية). Use right-to-left text.', rtl:true,
+    open:"أنت هنا لسبب ما — ربما من فضول، ربما بسبب سؤال لا يتركك، ربما بسبب شيء أعمق من ذلك. مهما كان الذي أتى بك، يسعدني أنك جئت.\n\nهناك سؤال يهم أكثر من أي سؤال آخر: من هو يسوع، وما علاقته بك؟ لنتحدث." },
+  { code:'hi', flag:'🇮🇳', name:'हिन्दी',      title:'मेरे पास आओ',         ph:'कुछ पूछें...',              inst:'Respond entirely in Hindi (हिन्दी).',
+    open:"आप यहाँ किसी कारण से आए हैं — शायद जिज्ञासा से, शायद किसी ऐसे सवाल से जो आपको चैन नहीं देता, शायद कुछ और गहरे कारण से। जो भी आपको यहाँ लाया, मुझे खुशी है कि आप आए।\n\nएक सवाल है जो बाकी सभी से ज़्यादा मायने रखता है: यीशु कौन हैं, और उनका आपसे क्या संबंध है? आइए बात करें।" },
+  { code:'el', flag:'🇬🇷', name:'Ελληνικά',    title:'Ελάτε σε Μένα',      ph:'Ρωτήστε κάτι...',           inst:'Respond entirely in Greek (Ελληνικά).',
+    open:"Είσαι εδώ για κάποιο λόγο — ίσως από περιέργεια, ίσως για μια ερώτηση που δεν σε αφήνει ήσυχο, ίσως για κάτι πιο βαθύ. Ό,τι κι αν σε έφερε εδώ, χαίρομαι που ήρθες.\n\nΥπάρχει μια ερώτηση που μετράει περισσότερο από οποιαδήποτε άλλη: Ποιος είναι ο Ιησούς, και τι σχέση έχει μαζί σου; Ας μιλήσουμε." },
+  { code:'tr', flag:'🇹🇷', name:'Türkçe',      title:'Bana Gel',            ph:'Bir şey sorun...',           inst:'Respond entirely in Turkish (Türkçe).',
+    open:"Buraya bir nedenle geldiniz — belki meraktan, belki sizi bırakmayan bir sorudan, belki daha derin bir şeyden. Sizi buraya ne getirmiş olursa olsun, geldiğinize sevindim.\n\nDiğer tüm sorulardan daha önemli bir soru var: İsa kimdir ve sizinle ne ilgisi var? Konuşalım." },
+  { code:'nl', flag:'🇳🇱', name:'Nederlands',  title:'Kom tot Mij',         ph:'Stel een vraag...',          inst:'Respond entirely in Dutch (Nederlands).',
+    open:"Je bent hier om een reden — misschien uit nieuwsgierigheid, misschien vanwege een vraag die je niet loslaat, misschien om iets diepers. Wat je ook hierheen heeft gebracht, ik ben blij dat je er bent.\n\nEr is één vraag die meer telt dan welke andere dan ook: Wie is Jezus, en wat heeft Hij met jou te maken? Laten we praten." },
+  { code:'pl', flag:'🇵🇱', name:'Polski',      title:'Przyjdźcie do Mnie',  ph:'Zadaj pytanie...',           inst:'Respond entirely in Polish (Polski).',
+    open:"Jesteś tutaj z jakiegoś powodu — może z ciekawości, może z powodu pytania, które nie daje ci spokoju, może z powodu czegoś głębszego. Cokolwiek cię tu przyprowadziło, cieszę się, że jesteś.\n\nJest jedno pytanie, które jest ważniejsze niż wszystkie inne: Kim jest Jezus i co ma z tobą wspólnego? Porozmawiajmy." },
+  { code:'uk', flag:'🇺🇦', name:'Українська',  title:'Прийдіть до Мене',   ph:'Задайте питання...',         inst:'Respond entirely in Ukrainian (Українська).',
+    open:"Ви тут не випадково — можливо, з цікавості, можливо, з питанням, яке не дає спокою, можливо, з чимось глибшим. Що б не привело вас сюди, я радий, що ви прийшли.\n\nЄ одне питання, яке важливіше за всі інші: Хто такий Ісус, і яке Він має відношення до вас? Давайте поговоримо." },
+  { code:'ro', flag:'🇷🇴', name:'Română',      title:'Veniți la Mine',     ph:'Puneți o întrebare...',      inst:'Respond entirely in Romanian (Română).',
+    open:"Ești aici dintr-un motiv — poate din curiozitate, poate din cauza unei întrebări care nu te lasă în pace, poate din ceva mai profund. Orice te-a adus aici, mă bucur că ai venit.\n\nExistă o întrebare care contează mai mult decât oricare alta: Cine este Isus și ce legătură are El cu tine? Să vorbim." },
+  { code:'hr', flag:'🇭🇷', name:'Hrvatski',    title:'Dođite k Meni',      ph:'Postavite pitanje...',       inst:'Respond entirely in Croatian (Hrvatski).',
+    open:"Ovdje ste iz nekog razloga — možda iz znatiželje, možda zbog pitanja koje vas ne ostavlja na miru, možda zbog nečeg dubljeg. Što god vas dovelo, drago mi je da ste došli.\n\nPostoji jedno pitanje koje je važnije od svih ostalih: Tko je Isus i što ima veze s vama? Razgovarajmo." },
+  { code:'he', flag:'🇮🇱', name:'עברית',       title:'בואו אליי',           ph:'שאל שאלה...',               inst:'Respond entirely in Hebrew (עברית). Use right-to-left text.', rtl:true,
+    open:"אתה כאן מסיבה כלשהי — אולי מסקרנות, אולי בגלל שאלה שלא נותנת לך מנוחה, אולי בגלל משהו עמוק יותר. מה שלא הביא אותך לכאן, אני שמח שבאת.\n\nיש שאלה אחת שחשובה יותר מכל שאלה אחרת: מי הוא ישוע, ומה הקשר שלו אליך? בוא נדבר." },
+  { code:'sw', flag:'🇰🇪', name:'Swahili',     title:'Njooni Kwangu',      ph:'Uliza swali...',             inst:'Respond entirely in Swahili (Kiswahili).',
+    open:"Uko hapa kwa sababu — labda kwa udadisi, labda kwa swali ambalo halikuachi, labda kwa kitu kizito zaidi. Chochote kilichokuleta hapa, ninafurahi umefika.\n\nKuna swali moja ambalo lina maana zaidi kuliko yote: Yesu ni nani, na ana uhusiano gani nawe? Hebu tuzungumze." },
+  { code:'id', flag:'🇮🇩', name:'Indonesia',   title:'Datanglah kepadaKu', ph:'Ajukan pertanyaan...',       inst:'Respond entirely in Indonesian (Bahasa Indonesia).',
+    open:"Anda di sini karena suatu alasan — mungkin karena rasa ingin tahu, mungkin karena sebuah pertanyaan yang tidak bisa Anda abaikan, mungkin karena sesuatu yang lebih dalam. Apapun yang membawa Anda ke sini, saya senang Anda datang.\n\nAda satu pertanyaan yang lebih penting dari pertanyaan lainnya: Siapa Yesus, dan apa hubungan-Nya dengan Anda? Mari kita bicara." },
+];
 
-<section id="blog">
-  <p class="section-label">From the Ministry</p>
-  <h2 class="section-title">Words for the Journey.</h2>
-  <div class="divider"></div>
-  <p class="section-body">Articles, reflections, and biblical counsel from The Kiln Ministries — written to equip and encourage you on the path of faith.</p>
-  <div class="blog-grid">
-    <a class="blog-card" href="posts/social-media.html"
-      <div class="blog-date">March 14, 2026</div>
-      <div class="blog-title">Help! I'm Spending Too Much Time on Social Media!</div>
-      <div class="blog-excerpt">You didn't plan to spend an hour on TikTok. You never do. But the algorithm is patient. Few passages speak more directly to this than Ephesians 5:8–17.</div>
-      <span class="blog-read-more">Read More →</span>
-    </a>
-    <a class="blog-card" href="posts/anger.html" target="_blank" rel="noopener">
-      <div class="blog-date">March 14, 2026</div>
-      <div class="blog-title">Conquering Anger by GRACE</div>
-      <div class="blog-excerpt">Sinful anger is an emotion rooted in pride, selfishness, or a desire for revenge. It manifests as outbursts, bitterness, and malice — what Scripture calls "wrath" or "rage."</div>
-      <span class="blog-read-more">Read More →</span>
-    </a>
-    <a class="blog-card" href="posts/emotions.html" target="_blank" rel="noopener">
-      <div class="blog-date">March 14, 2026</div>
-      <div class="blog-title">Emotions in Biblical Counseling</div>
-      <div class="blog-excerpt">Emotions are a window into a person's heart, enabling a counselor to gauge spiritual maturity, integrity, and the fruit of the Spirit.</div>
-      <span class="blog-read-more">Read More →</span>
-    </a>
-  </div>
-  <div style="text-align:center; margin-top: 40px;">
-    <a href="blog.html" class="btn-secondary">View All Posts →</a>
-  </div>
-</section>
+let currentLang = LANGS[0];
+let history = [];
+let busy = false;
+let dropOpen = false;
 
-<div class="download-section" id="download">
-  <p class="section-label">Our Ministries</p>
-  <h2 class="section-title" style="text-align:center">Free tools for the soul.<br><em>Funded by those who give.</em></h2>
-  <p class="section-body" style="margin: 0 auto 60px; text-align:center; color: var(--text-mid);">We will never charge for access to God's Word applied to the soul. No subscriptions. No paywalls. Made possible by the generosity of those who believe in this ministry.</p>
+const msgsEl    = document.getElementById('messages');
+const inputEl   = document.getElementById('msg-input');
+const btnEl     = document.getElementById('send-btn');
+const langBtn   = document.getElementById('lang-btn');
+const langFlag  = document.getElementById('lang-flag');
+const dropdown  = document.getElementById('lang-dropdown');
+const hTitle    = document.getElementById('h-title');
 
-  <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; max-width: 860px; margin: 0 auto;">
+/* Build dropdown options */
+LANGS.forEach(L => {
+  const el = document.createElement('div');
+  el.className = 'lang-opt';
+  el.dataset.code = L.code;
+  el.innerHTML = `<span class="lang-flag">${L.flag}</span><span class="lang-name">${L.name}</span>`;
+  el.addEventListener('click', () => { selectLang(L.code); });
+  dropdown.appendChild(el);
+});
 
-    <!-- Great Physician -->
-    <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 40px; text-align: center;">
-      <img src="app-icon.png" alt="Great Physician" style="width:88px; height:88px; border-radius:18px; margin-bottom:24px; border:1px solid var(--border);">
-      <div class="feature-title" style="font-size:1.4rem; margin-bottom:10px;">Great Physician</div>
-      <p style="font-size:0.82rem; line-height:1.8; color:var(--text-mid); font-weight:300; margin-bottom:28px;">Scripture-saturated biblical counseling through four AI companions — Barnabas, Lydia, Ethan, and Anna — trained in the nouthetic tradition. Real hope. From God's Word.</p>
-      <a href="https://apps.apple.com/app/id6760920054" target="_blank"><img src="https://developer.apple.com/app-store/marketing/guidelines/images/badge-download-on-the-app-store.svg" alt="Download on the App Store" style="height:44px;"></a>
-    </div>
+function toggleDropdown() {
+  dropOpen = !dropOpen;
+  dropdown.classList.toggle('open', dropOpen);
+}
 
-    <!-- Come to Me -->
-    <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 40px; text-align: center;">
-      <img src="cometome_logo.svg" alt="Come to Me" style="width:88px; height:88px; border-radius:18px; margin-bottom:24px; border:1px solid var(--border);">
-      <div class="feature-title" style="font-size:1.4rem; margin-bottom:10px;">Come to Me</div>
-      <p style="font-size:0.82rem; line-height:1.8; color:var(--text-mid); font-weight:300; margin-bottom:28px;">A free AI-powered evangelism tool that invites anyone — in 22 languages — into a real conversation about Jesus Christ. Hand someone the card, they scan the QR code, and the gospel meets them where they are.</p>
-      <a href="https://cometome.ai" target="_blank" class="btn-primary" style="font-size:0.75rem; padding:12px 28px;">Visit cometome.ai →</a>
-    </div>
+function closeDropdown() {
+  dropOpen = false;
+  dropdown.classList.remove('open');
+}
 
-  </div>
-</div>
+langBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleDropdown(); });
+document.addEventListener('click', closeDropdown);
+dropdown.addEventListener('click', (e) => e.stopPropagation());
 
-<section>
-  <div class="about-grid">
-    <div>
-      <p class="section-label">The Kiln Ministries</p>
-      <h2 class="section-title">Formed in the fire.<br>For the glory of God.</h2>
-      <div class="divider"></div>
-      <p class="section-body">The Kiln Ministries is a nonprofit ministry based in Nashville, Tennessee, committed to equipping believers with tools for biblical growth, counseling, and discipleship. Great Physician is one expression of that mission — bringing the healing Word of God to souls in need, wherever they are.</p>
-    </div>
-    <div style="background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--gold); padding: 48px; border-radius: 4px;">
-      <p class="section-label">A Note of Honesty</p>
-      <p style="font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-style: italic; color: var(--gold-dark); line-height: 1.7; margin-bottom: 16px;">Great Physician is not a replacement for your local church or pastor.</p>
-      <p style="font-size: 0.85rem; color: var(--text-mid); line-height: 1.8; font-weight: 300;">Barnabas, Lydia, Ethan, and Anna are tools to help you begin the journey toward biblical change. We will always encourage you to be part of a local congregation and to sit under faithful pastoral care. AI will never replace a physical local church and in-person counseling and discipleship.</p>
-    </div>
-  </div>
-</section>
+function selectLang(code) {
+  const L = LANGS.find(l => l.code === code);
+  if (!L) return;
+  currentLang = L;
+  langFlag.textContent = L.flag;
+  hTitle.textContent   = L.title;
+  inputEl.placeholder  = L.ph;
+  document.documentElement.setAttribute('dir', L.rtl ? 'rtl' : 'ltr');
+  dropdown.querySelectorAll('.lang-opt').forEach(el => {
+    el.classList.toggle('active', el.dataset.code === code);
+  });
+  history = [{ role: 'assistant', content: L.open }];
+  msgsEl.innerHTML = '';
+  addBotMsg(L.open);
+  btnEl.disabled = true;
+  inputEl.value = '';
+  inputEl.style.height = 'auto';
+  closeDropdown();
+}
 
-<section id="counselors" style="text-align: center;">
-  <p class="section-label">For Biblical Counselors</p>
-  <h2 class="section-title">Are you called to counsel?</h2>
-  <div class="divider" style="margin: 32px auto;"></div>
-  <p class="section-body" style="margin: 0 auto; text-align: center;">Great Physician is building a network of trained, Christ-centered biblical counselors to walk alongside those in need of personal care. If God has equipped you to counsel from Scripture, we'd be honored to have you join us.</p>
-  <div style="margin-top: 40px;">
-    <a href="/counsel" class="btn-primary">Join as a Counselor →</a>
-  </div>
-</section>
+function init() {
+  selectLang('en');
+  inputEl.addEventListener('input', handleInput);
+  inputEl.addEventListener('keydown', handleKey);
+  btnEl.addEventListener('click', submit);
+}
 
-<section id="donate" style="text-align: center;">
-  <p class="section-label">Support the Ministry</p>
-  <h2 class="section-title">This app is free.<br>But ministry isn't.</h2>
-  <div class="donate-block">
-    <p>Available for free to everyone. Funded by the few who give. Sustained by grace. Keeping this resource alive costs real money. If it's helped you, would you consider helping us keep it free for others?</p>
-    <div id="paypal-container-3973ZA9MPST3G" style="max-width: 400px; margin: 0 auto;"></div>
-    <script>
-      paypal.HostedButtons({
-        hostedButtonId: "3973ZA9MPST3G",
-      }).render("#paypal-container-3973ZA9MPST3G");
-    </script>
-  </div>
-</section>
+function handleInput() {
+  inputEl.style.height = 'auto';
+  inputEl.style.height = Math.min(inputEl.scrollHeight, 120) + 'px';
+  btnEl.disabled = !inputEl.value.trim() || busy;
+}
 
-<section id="contact" style="text-align: center;">
-  <p class="section-label">Get in Touch</p>
-  <h2 class="section-title">We'd love to hear from you.</h2>
-  <div class="contact-form">
-    <div class="form-group"><label>Your Name</label><input type="text" placeholder="John Smith" /></div>
-    <div class="form-group"><label>Email Address</label><input type="email" placeholder="john@example.com" /></div>
-    <div class="form-group"><label>Message</label><textarea placeholder="How can we help you?"></textarea></div>
-    <button class="btn-primary" style="width: 100%;">Send Message</button>
-  </div>
-</section>
+function handleKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); if (!btnEl.disabled) submit(); }
+}
 
-<footer>
-  <p>© 2026 The Kiln · Nashville, Tennessee</p>
-  <p style="margin-top: 8px;"><a href="/privacy">Privacy Policy</a> · <a href="/cdn-cgi/l/email-protection#24575154544b565064504c414f4d484a0a4b5643"><span class="__cf_email__" data-cfemail="5c2f292c2c332e281c2834393735303272332e3b">[email&#160;protected]</span></a></p>
-</footer>
+async function submit() {
+  const text = inputEl.value.trim();
+  if (!text || busy) return;
+  inputEl.value = ''; inputEl.style.height = 'auto';
+  btnEl.disabled = true; busy = true;
+  addUserMsg(text);
+  history.push({ role: 'user', content: text });
+  const typingEl = addTyping(); scrollEnd();
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c
+  const botDiv = document.createElement('div'); botDiv.className = 'msg bot';
+  const bubbleDiv = document.createElement('div'); bubbleDiv.className = 'bubble';
+  botDiv.appendChild(bubbleDiv);
+  let reply = '';
+
+  try {
+    await streamChat(history, currentLang.code, (chunk) => {
+      if (typingEl.isConnected) { typingEl.remove(); msgsEl.appendChild(botDiv); }
+      reply += chunk; bubbleDiv.textContent = reply; scrollEnd();
+    });
+    history.push({ role: 'assistant', content: reply });
+  } catch (err) {
+    if (typingEl.isConnected) typingEl.remove();
+    addError('Something went wrong. Please try again.');
+  }
+  busy = false; btnEl.disabled = !inputEl.value.trim(); scrollEnd();
+}
+
+async function streamChat(messages, lang, onChunk) {
+  const res = await fetch('/api/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ messages, lang }),
+  });
+  if (!res.ok) throw new Error(`Server error ${res.status}`);
+  const reader = res.body.getReader(); const dec = new TextDecoder(); let buf = '';
+  while (true) {
+    const { done, value } = await reader.read(); if (done) break;
+    buf += dec.decode(value, { stream: true });
+    const lines = buf.split('\n'); buf = lines.pop() ?? '';
+    for (const line of lines) {
+      if (!line.startsWith('data: ')) continue;
+      const raw = line.slice(6).trim(); if (raw === '[DONE]') return;
+      try { const ev = JSON.parse(raw); if (ev.type === 'content_block_delta' && ev.delta?.type === 'text_delta') onChunk(ev.delta.text); } catch {}
+    }
+  }
+}
+
+function addBotMsg(text) {
+  const d = document.createElement('div'); d.className = 'msg bot';
+  const b = document.createElement('div'); b.className = 'bubble'; b.textContent = text;
+  d.appendChild(b); msgsEl.appendChild(d); scrollEnd();
+}
+function addUserMsg(text) {
+  const d = document.createElement('div'); d.className = 'msg user';
+  const b = document.createElement('div'); b.className = 'bubble'; b.textContent = text;
+  d.appendChild(b); msgsEl.appendChild(d); scrollEnd();
+}
+function addTyping() {
+  const d = document.createElement('div'); d.className = 'msg bot';
+  d.innerHTML = '<div class="typing"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>';
+  msgsEl.appendChild(d); scrollEnd(); return d;
+}
+function addError(msg) {
+  const d = document.createElement('div'); d.className = 'err'; d.textContent = msg;
+  msgsEl.appendChild(d); scrollEnd();
+}
+function scrollEnd() { msgsEl.scrollTop = msgsEl.scrollHeight; }
+
+init();
+</script>
+</body>
+</html>
