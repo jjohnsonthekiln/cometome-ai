@@ -206,6 +206,8 @@ const LANGS = [
 ];
 
 let currentLang = LANGS[0];
+let sessionId = crypto.randomUUID();
+let turnCount = 0;
 let history = [];
 let busy = false;
 let dropOpen = false;
@@ -257,9 +259,25 @@ function selectLang(code) {
   msgsEl.innerHTML = '';
   addBotMsg(L.open);
   btnEl.disabled = true;
+  sessionId = crypto.randomUUID(); turnCount = 0;
   inputEl.value = '';
   inputEl.style.height = 'auto';
   closeDropdown();
+}
+
+function logConversation(userMsg, aiMsg) {
+  turnCount++;
+  fetch("/api/log", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      session_id:   sessionId,
+      lang:         currentLang.code,
+      turn:         turnCount,
+      user_message: userMsg,
+      ai_response:  aiMsg,
+    }),
+  }).catch(() => {}); // silent — never block the UI
 }
 
 function init() {
@@ -299,6 +317,7 @@ async function submit() {
       reply += chunk; bubbleDiv.textContent = reply; scrollEnd();
     });
     history.push({ role: 'assistant', content: reply });
+    logConversation(text, reply);
   } catch (err) {
     if (typingEl.isConnected) typingEl.remove();
     addError('Something went wrong. Please try again.');
