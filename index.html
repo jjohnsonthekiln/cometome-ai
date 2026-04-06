@@ -7,233 +7,110 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Come to Me</title>
-<meta name="description" content="A real conversation about Jesus.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Lato:wght@300;400&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 :root {
-  --bg:         #18150F;
-  --bg-2:       #201D16;
-  --bg-3:       #2A2520;
-  --cream:      #EDE0C4;
-  --cream-lt:   #F5EDD8;
-  --gold:       #C9A96E;
-  --gold-dim:   #7a6b4a;
-  --gold-dark:  #4e4232;
-  --crimson:    #C03040;
-  --crimson-dk: #8B1520;
-  --border:     rgba(201,169,110,0.12);
-  --bot-bg:     #F0E8D4;
-  --bot-text:   #1C1812;
-  --serif:      'Cormorant Garamond', Georgia, serif;
-  --sans:       'Lato', sans-serif;
+  --bg: #18150F; --bg-3: #2A2520;
+  --cream: #EDE0C4; --gold: #C9A96E; --gold-dim: #7a6b4a;
+  --crimson: #C03040; --crimson-dk: #8B1520;
+  --border: rgba(201,169,110,0.12);
+  --bot-bg: #F0E8D4; --bot-text: #1C1812;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans: 'Lato', sans-serif;
 }
+html, body { height: 100%; background: var(--bg); color: var(--cream); font-family: var(--sans); font-weight: 300; -webkit-font-smoothing: antialiased; overscroll-behavior: none; }
+#app { display: flex; flex-direction: column; height: 100dvh; max-width: 680px; margin: 0 auto; }
 
-html, body {
-  height: 100%;
-  background: var(--bg);
-  color: var(--cream);
+/* ── Header ── */
+header { display: flex; align-items: center; gap: 12px; padding: 14px 20px 13px; padding-top: calc(14px + env(safe-area-inset-top)); background: var(--bg); border-bottom: 0.5px solid var(--border); flex-shrink: 0; position: relative; }
+.h-logo { width: 36px; height: 36px; flex-shrink: 0; }
+.h-text { flex: 1; }
+.h-text h1 { font-family: var(--serif); font-weight: 300; font-size: 22px; color: var(--cream); line-height: 1; }
+.h-text p  { font-family: var(--serif); font-style: italic; font-size: 12px; color: var(--gold-dim); margin-top: 2px; }
+
+/* ── Custom Language Picker ── */
+#lang-btn {
+  background: var(--bg-3);
+  border: 0.5px solid rgba(201,169,110,0.25);
+  border-radius: 8px;
+  color: var(--gold);
   font-family: var(--sans);
-  font-weight: 300;
-  -webkit-font-smoothing: antialiased;
-  overscroll-behavior: none;
-}
-
-#app {
-  display: flex;
-  flex-direction: column;
-  height: 100dvh;
-  max-width: 680px;
-  margin: 0 auto;
-}
-
-/* ── Header ─────────────────────────── */
-header {
+  font-size: 18px;
+  padding: 5px 10px;
+  cursor: pointer;
+  user-select: none;
+  flex-shrink: 0;
+  line-height: 1;
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 14px 20px 13px;
-  padding-top: calc(14px + env(safe-area-inset-top));
-  background: var(--bg);
-  border-bottom: 0.5px solid var(--border);
-  flex-shrink: 0;
-  user-select: none;
+  gap: 4px;
+  white-space: nowrap;
 }
+#lang-btn:hover { border-color: rgba(201,169,110,0.5); }
 
-.h-logo { width: 36px; height: 36px; flex-shrink: 0; }
-
-.h-text h1 {
-  font-family: var(--serif);
-  font-weight: 300;
-  font-size: 22px;
-  color: var(--cream);
-  line-height: 1;
-  letter-spacing: 0.01em;
-}
-
-.h-text p {
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: 12px;
-  color: var(--gold-dim);
-  margin-top: 2px;
-  letter-spacing: 0.05em;
-}
-
-/* ── Messages ───────────────────────── */
-#messages {
-  flex: 1;
+#lang-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 14px;
+  background: #201D16;
+  border: 0.5px solid rgba(201,169,110,0.25);
+  border-radius: 10px;
+  z-index: 100;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+  max-height: 320px;
   overflow-y: auto;
-  padding: 24px 16px 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
+  width: 200px;
   -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
 }
+#lang-dropdown.open { display: block; }
 
-.msg {
+.lang-opt {
   display: flex;
-  flex-direction: column;
-  max-width: 86%;
-  animation: rise 0.22s ease forwards;
-  opacity: 0;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--gold-dim);
+  transition: background 0.1s;
+  border-bottom: 0.5px solid rgba(201,169,110,0.06);
 }
+.lang-opt:last-child { border-bottom: none; }
+.lang-opt:hover { background: rgba(201,169,110,0.08); color: var(--cream); }
+.lang-opt.active { color: var(--gold); }
+.lang-flag { font-size: 20px; line-height: 1; flex-shrink: 0; }
+.lang-name { font-size: 13px; }
 
-@keyframes rise {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
+/* ── Messages ── */
+#messages { flex: 1; overflow-y: auto; padding: 24px 16px 12px; display: flex; flex-direction: column; gap: 14px; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+.msg { display: flex; flex-direction: column; max-width: 86%; animation: rise 0.22s ease forwards; opacity: 0; }
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 .msg.bot  { align-self: flex-start; }
 .msg.user { align-self: flex-end; }
-
-.bubble {
-  padding: 12px 16px;
-  font-size: 15px;
-  line-height: 1.7;
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-
-.msg.bot .bubble {
-  background: var(--bot-bg);
-  color: var(--bot-text);
-  border-radius: 18px 18px 18px 4px;
-  font-family: var(--sans);
-  font-weight: 300;
-}
-
-.msg.user .bubble {
-  background: var(--bg-3);
-  color: var(--cream);
-  border-radius: 18px 18px 4px 18px;
-  border: 0.5px solid rgba(201,169,110,0.18);
-}
-
-/* Typing indicator */
-.typing {
-  display: flex;
-  gap: 5px;
-  align-items: center;
-  padding: 14px 18px;
-  background: var(--bot-bg);
-  border-radius: 18px 18px 18px 4px;
-  width: fit-content;
-}
-
-.dot {
-  width: 7px; height: 7px;
-  border-radius: 50%;
-  background: #6a5a45;
-  animation: pulse 1.3s infinite ease-in-out;
-}
+.bubble { padding: 12px 16px; font-size: 15px; line-height: 1.7; white-space: pre-wrap; word-break: break-word; }
+.msg.bot  .bubble { background: var(--bot-bg); color: var(--bot-text); border-radius: 18px 18px 18px 4px; font-family: var(--sans); font-weight: 300; }
+.msg.user .bubble { background: var(--bg-3); color: var(--cream); border-radius: 18px 18px 4px 18px; border: 0.5px solid rgba(201,169,110,0.18); }
+.typing { display: flex; gap: 5px; align-items: center; padding: 14px 18px; background: var(--bot-bg); border-radius: 18px 18px 18px 4px; width: fit-content; }
+.dot { width: 7px; height: 7px; border-radius: 50%; background: #6a5a45; animation: pulse 1.3s infinite ease-in-out; }
 .dot:nth-child(2) { animation-delay: 0.18s; }
 .dot:nth-child(3) { animation-delay: 0.36s; }
+@keyframes pulse { 0%, 60%, 100% { transform: scale(0.75); opacity: 0.3; } 30% { transform: scale(1); opacity: 0.8; } }
+.err { align-self: center; font-size: 13px; color: #d07070; background: rgba(192,48,64,0.1); border: 0.5px solid rgba(192,48,64,0.25); padding: 9px 14px; border-radius: 10px; max-width: 80%; text-align: center; }
 
-@keyframes pulse {
-  0%, 60%, 100% { transform: scale(0.75); opacity: 0.3; }
-  30% { transform: scale(1); opacity: 0.8; }
-}
-
-/* Error */
-.err {
-  align-self: center;
-  font-size: 13px;
-  color: #d07070;
-  background: rgba(192,48,64,0.1);
-  border: 0.5px solid rgba(192,48,64,0.25);
-  padding: 9px 14px;
-  border-radius: 10px;
-  max-width: 80%;
-  text-align: center;
-}
-
-/* ── Input ──────────────────────────── */
-#input-area {
-  padding: 10px 14px;
-  padding-bottom: calc(10px + env(safe-area-inset-bottom));
-  border-top: 0.5px solid var(--border);
-  background: var(--bg);
-  flex-shrink: 0;
-}
-
-.input-row {
-  display: flex;
-  align-items: flex-end;
-  gap: 8px;
-  background: var(--bg-3);
-  border: 0.5px solid rgba(201,169,110,0.2);
-  border-radius: 26px;
-  padding: 8px 8px 8px 16px;
-  transition: border-color 0.15s;
-}
-
-.input-row:focus-within {
-  border-color: rgba(201,169,110,0.4);
-}
-
-textarea {
-  flex: 1;
-  background: transparent;
-  border: none;
-  outline: none;
-  color: var(--cream);
-  font-family: var(--sans);
-  font-weight: 300;
-  font-size: 15px;
-  line-height: 1.5;
-  resize: none;
-  max-height: 120px;
-  min-height: 22px;
-  padding: 1px 0;
-  caret-color: var(--gold);
-}
-
+/* ── Input ── */
+#input-area { padding: 10px 14px; padding-bottom: calc(10px + env(safe-area-inset-bottom)); border-top: 0.5px solid var(--border); background: var(--bg); flex-shrink: 0; }
+.input-row { display: flex; align-items: flex-end; gap: 8px; background: var(--bg-3); border: 0.5px solid rgba(201,169,110,0.2); border-radius: 26px; padding: 8px 8px 8px 16px; transition: border-color 0.15s; }
+.input-row:focus-within { border-color: rgba(201,169,110,0.4); }
+textarea { flex: 1; background: transparent; border: none; outline: none; color: var(--cream); font-family: var(--sans); font-weight: 300; font-size: 15px; line-height: 1.5; resize: none; max-height: 120px; min-height: 22px; padding: 1px 0; caret-color: var(--gold); }
 textarea::placeholder { color: var(--gold-dim); opacity: 0.7; }
-
-#send-btn {
-  width: 36px; height: 36px;
-  flex-shrink: 0;
-  border: none;
-  border-radius: 50%;
-  background: var(--crimson);
-  color: #fff;
-  cursor: pointer;
-  display: grid;
-  place-items: center;
-  transition: background 0.15s, transform 0.1s, opacity 0.15s;
-}
-
+#send-btn { width: 36px; height: 36px; flex-shrink: 0; border: none; border-radius: 50%; background: var(--crimson); color: #fff; cursor: pointer; display: grid; place-items: center; transition: background 0.15s, transform 0.1s, opacity 0.15s; }
 #send-btn:hover:not(:disabled)  { background: var(--crimson-dk); }
 #send-btn:active:not(:disabled) { transform: scale(0.91); }
 #send-btn:disabled { opacity: 0.35; cursor: not-allowed; }
-
 #send-btn svg { width: 15px; height: 15px; }
-
-/* ── Scrollbar ──────────────────────── */
 #messages::-webkit-scrollbar { width: 3px; }
 #messages::-webkit-scrollbar-track { background: transparent; }
 #messages::-webkit-scrollbar-thumb { background: rgba(201,169,110,0.2); border-radius: 2px; }
@@ -241,30 +118,27 @@ textarea::placeholder { color: var(--gold-dim); opacity: 0.7; }
 </head>
 <body>
 <div id="app">
-
   <header>
     <svg class="h-logo" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <radialGradient id="hBg" cx="50%" cy="44%" r="62%">
-          <stop offset="0%" stop-color="#3A0C14"/>
-          <stop offset="100%" stop-color="#140308"/>
-        </radialGradient>
-        <radialGradient id="hCx" cx="512" cy="468" r="390" gradientUnits="userSpaceOnUse">
-          <stop offset="0%"   stop-color="#F2C8CC"/>
-          <stop offset="30%"  stop-color="#D04050"/>
-          <stop offset="100%" stop-color="#7A1522"/>
-        </radialGradient>
+        <radialGradient id="hBg" cx="50%" cy="44%" r="62%"><stop offset="0%" stop-color="#3A0C14"/><stop offset="100%" stop-color="#140308"/></radialGradient>
+        <radialGradient id="hCx" cx="512" cy="468" r="390" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#F2C8CC"/><stop offset="30%" stop-color="#D04050"/><stop offset="100%" stop-color="#7A1522"/></radialGradient>
       </defs>
       <rect width="1024" height="1024" rx="224" fill="url(#hBg)"/>
       <rect x="338" y="148" width="348" height="728" rx="68" fill="url(#hCx)"/>
       <rect x="148" y="338" width="728" height="348" rx="68" fill="url(#hCx)"/>
       <rect x="476" y="222" width="72" height="582" rx="10" fill="white"/>
-      <rect x="334" y="408" width="356" height="72"  rx="10" fill="white"/>
+      <rect x="334" y="408" width="356" height="72" rx="10" fill="white"/>
     </svg>
     <div class="h-text">
-      <h1>Come to Me</h1>
+      <h1 id="h-title">Come to Me</h1>
       <p>Matthew 11:28</p>
     </div>
+    <button id="lang-btn" aria-haspopup="listbox">
+      <span id="lang-flag">🇬🇧</span>
+      <span style="font-size:11px; color: var(--gold-dim);">▾</span>
+    </button>
+    <div id="lang-dropdown" role="listbox"></div>
   </header>
 
   <div id="messages"></div>
@@ -273,39 +147,128 @@ textarea::placeholder { color: var(--gold-dim); opacity: 0.7; }
     <div class="input-row">
       <textarea id="msg-input" placeholder="Ask anything..." rows="1"></textarea>
       <button id="send-btn" disabled aria-label="Send">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-             stroke-linecap="round" stroke-linejoin="round">
-          <line x1="12" y1="19" x2="12" y2="5"/>
-          <polyline points="5 12 12 5 19 12"/>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/>
         </svg>
       </button>
     </div>
   </div>
-
 </div>
+
 <script>
 'use strict';
 
-// Opening message — shown immediately, no API call needed
-const OPENING = "You're here for a reason — maybe curiosity, maybe a question that won't leave you alone, maybe something harder than that. Whatever brought you, I'm glad.\n\nThere's one question that matters more than any other: Who is Jesus, and what does He have to do with you? Let's talk.";
+const LANGS = [
+  { code:'en', flag:'🇬🇧', name:'English',    title:'Come to Me',         ph:'Ask anything...',           inst:'Respond in English.',
+    open:"You're here for a reason — maybe curiosity, maybe a question that won't leave you alone, maybe something harder than that. Whatever brought you, I'm glad.\n\nThere's one question that matters more than any other: Who is Jesus, and what does He have to do with you? Let's talk." },
+  { code:'it', flag:'🇮🇹', name:'Italiano',    title:'Vieni a Me',          ph:'Chiedi qualcosa...',        inst:'Respond entirely in Italian (Italiano).',
+    open:"Sei qui per un motivo — forse per curiosità, forse per una domanda che non ti lascia in pace, forse per qualcosa di più profondo. Qualunque cosa ti abbia portato qui, sono contento che tu sia venuto.\n\nC'è una domanda che conta più di qualsiasi altra: Chi è Gesù, e cosa ha a che fare con te? Parliamone." },
+  { code:'es', flag:'🇪🇸', name:'Español',     title:'Ven a Mí',            ph:'Pregunta algo...',          inst:'Respond entirely in Spanish (Español).',
+    open:"Estás aquí por una razón — quizás por curiosidad, quizás por una pregunta que no te deja en paz, quizás por algo más profundo. Sea lo que sea que te trajo, me alegra que hayas venido.\n\nHay una pregunta que importa más que ninguna otra: ¿Quién es Jesús, y qué tiene que ver contigo? Hablemos." },
+  { code:'pt', flag:'🇧🇷', name:'Português',   title:'Vinde a Mim',         ph:'Faça uma pergunta...',      inst:'Respond entirely in Portuguese (Português).',
+    open:"Você está aqui por uma razão — talvez por curiosidade, talvez por uma pergunta que não te deixa em paz, talvez por algo mais profundo. Seja o que for que te trouxe, fico feliz que você veio.\n\nHá uma pergunta que importa mais do que qualquer outra: Quem é Jesus, e o que Ele tem a ver com você? Vamos conversar." },
+  { code:'fr', flag:'🇫🇷', name:'Français',    title:'Venez à Moi',         ph:'Posez une question...',     inst:'Respond entirely in French (Français).',
+    open:"Vous êtes ici pour une raison — peut-être par curiosité, peut-être pour une question qui ne vous quitte pas, peut-être pour quelque chose de plus profond. Quoi qu'il vous ait amené ici, je suis heureux que vous soyez venu.\n\nIl y a une question qui compte plus que toute autre : Qui est Jésus, et qu'a-t-il à voir avec vous ? Parlons-en." },
+  { code:'de', flag:'🇩🇪', name:'Deutsch',     title:'Kommt zu Mir',        ph:'Stellen Sie eine Frage...', inst:'Respond entirely in German (Deutsch).',
+    open:"Sie sind aus einem Grund hier — vielleicht aus Neugier, vielleicht wegen einer Frage, die Sie nicht loslässt, vielleicht wegen etwas Tieferem. Was auch immer Sie hierher geführt hat — ich bin froh, dass Sie da sind.\n\nEs gibt eine Frage, die mehr zählt als jede andere: Wer ist Jesus, und was hat Er mit Ihnen zu tun? Lassen Sie uns reden." },
+  { code:'ru', flag:'🇷🇺', name:'Русский',     title:'Придите ко Мне',      ph:'Задайте вопрос...',         inst:'Respond entirely in Russian (Русский).',
+    open:"Вы здесь не случайно — возможно, из любопытства, возможно, с вопросом, который не даёт покоя, возможно, с чем-то более глубоким. Что бы ни привело вас сюда, я рад, что вы пришли.\n\nЕсть один вопрос, который важнее всех остальных: Кто такой Иисус, и какое Он имеет к вам отношение? Давайте поговорим." },
+  { code:'zh', flag:'🇨🇳', name:'中文',         title:'来就我',               ph:'请提问...',                  inst:'Respond entirely in Simplified Chinese (简体中文).',
+    open:"你来这里是有原因的——也许是出于好奇，也许是有一个问题一直困扰着你，也许是某种更深的东西。无论是什么带你来到这里，我都很高兴你来了。\n\n有一个问题比其他任何问题都重要：耶稣是谁，他与你有什么关系？我们来谈谈。" },
+  { code:'ja', flag:'🇯🇵', name:'日本語',       title:'我に来たれ',           ph:'質問してください...',        inst:'Respond entirely in Japanese (日本語).',
+    open:"あなたがここに来たのには理由があります——好奇心からかもしれない、頭から離れない疑問があるからかもしれない、あるいはもっと深いものがあるからかもしれない。何があなたをここに連れてきたとしても、来てくださってうれしいです。\n\nどんな問いよりも大切な問いがあります：イエスとは誰であり、あなたとどのような関係があるのでしょうか？話し合いましょう。" },
+  { code:'ko', flag:'🇰🇷', name:'한국어',       title:'내게로 오라',          ph:'질문하세요...',              inst:'Respond entirely in Korean (한국어).',
+    open:"당신이 여기 온 데는 이유가 있습니다 — 호기심 때문일 수도, 머릿속을 떠나지 않는 질문 때문일 수도, 아니면 더 깊은 무언가 때문일 수도 있습니다. 무엇이 당신을 이곳에 데려왔든, 오신 것을 기쁘게 생각합니다.\n\n다른 무엇보다 중요한 질문이 하나 있습니다: 예수님은 누구이시며, 당신과 어떤 관계가 있으신가요? 이야기해 봅시다." },
+  { code:'ar', flag:'🇸🇦', name:'العربية',     title:'تعالوا إليّ',          ph:'اطرح سؤالاً...',            inst:'Respond entirely in Arabic (العربية). Use right-to-left text.', rtl:true,
+    open:"أنت هنا لسبب ما — ربما من فضول، ربما بسبب سؤال لا يتركك، ربما بسبب شيء أعمق من ذلك. مهما كان الذي أتى بك، يسعدني أنك جئت.\n\nهناك سؤال يهم أكثر من أي سؤال آخر: من هو يسوع، وما علاقته بك؟ لنتحدث." },
+  { code:'hi', flag:'🇮🇳', name:'हिन्दी',      title:'मेरे पास आओ',         ph:'कुछ पूछें...',              inst:'Respond entirely in Hindi (हिन्दी).',
+    open:"आप यहाँ किसी कारण से आए हैं — शायद जिज्ञासा से, शायद किसी ऐसे सवाल से जो आपको चैन नहीं देता, शायद कुछ और गहरे कारण से। जो भी आपको यहाँ लाया, मुझे खुशी है कि आप आए।\n\nएक सवाल है जो बाकी सभी से ज़्यादा मायने रखता है: यीशु कौन हैं, और उनका आपसे क्या संबंध है? आइए बात करें।" },
+  { code:'el', flag:'🇬🇷', name:'Ελληνικά',    title:'Ελάτε σε Μένα',      ph:'Ρωτήστε κάτι...',           inst:'Respond entirely in Greek (Ελληνικά).',
+    open:"Είσαι εδώ για κάποιο λόγο — ίσως από περιέργεια, ίσως για μια ερώτηση που δεν σε αφήνει ήσυχο, ίσως για κάτι πιο βαθύ. Ό,τι κι αν σε έφερε εδώ, χαίρομαι που ήρθες.\n\nΥπάρχει μια ερώτηση που μετράει περισσότερο από οποιαδήποτε άλλη: Ποιος είναι ο Ιησούς, και τι σχέση έχει μαζί σου; Ας μιλήσουμε." },
+  { code:'tr', flag:'🇹🇷', name:'Türkçe',      title:'Bana Gel',            ph:'Bir şey sorun...',           inst:'Respond entirely in Turkish (Türkçe).',
+    open:"Buraya bir nedenle geldiniz — belki meraktan, belki sizi bırakmayan bir sorudan, belki daha derin bir şeyden. Sizi buraya ne getirmiş olursa olsun, geldiğinize sevindim.\n\nDiğer tüm sorulardan daha önemli bir soru var: İsa kimdir ve sizinle ne ilgisi var? Konuşalım." },
+  { code:'nl', flag:'🇳🇱', name:'Nederlands',  title:'Kom tot Mij',         ph:'Stel een vraag...',          inst:'Respond entirely in Dutch (Nederlands).',
+    open:"Je bent hier om een reden — misschien uit nieuwsgierigheid, misschien vanwege een vraag die je niet loslaat, misschien om iets diepers. Wat je ook hierheen heeft gebracht, ik ben blij dat je er bent.\n\nEr is één vraag die meer telt dan welke andere dan ook: Wie is Jezus, en wat heeft Hij met jou te maken? Laten we praten." },
+  { code:'pl', flag:'🇵🇱', name:'Polski',      title:'Przyjdźcie do Mnie',  ph:'Zadaj pytanie...',           inst:'Respond entirely in Polish (Polski).',
+    open:"Jesteś tutaj z jakiegoś powodu — może z ciekawości, może z powodu pytania, które nie daje ci spokoju, może z powodu czegoś głębszego. Cokolwiek cię tu przyprowadziło, cieszę się, że jesteś.\n\nJest jedno pytanie, które jest ważniejsze niż wszystkie inne: Kim jest Jezus i co ma z tobą wspólnego? Porozmawiajmy." },
+  { code:'uk', flag:'🇺🇦', name:'Українська',  title:'Прийдіть до Мене',   ph:'Задайте питання...',         inst:'Respond entirely in Ukrainian (Українська).',
+    open:"Ви тут не випадково — можливо, з цікавості, можливо, з питанням, яке не дає спокою, можливо, з чимось глибшим. Що б не привело вас сюди, я радий, що ви прийшли.\n\nЄ одне питання, яке важливіше за всі інші: Хто такий Ісус, і яке Він має відношення до вас? Давайте поговоримо." },
+  { code:'ro', flag:'🇷🇴', name:'Română',      title:'Veniți la Mine',     ph:'Puneți o întrebare...',      inst:'Respond entirely in Romanian (Română).',
+    open:"Ești aici dintr-un motiv — poate din curiozitate, poate din cauza unei întrebări care nu te lasă în pace, poate din ceva mai profund. Orice te-a adus aici, mă bucur că ai venit.\n\nExistă o întrebare care contează mai mult decât oricare alta: Cine este Isus și ce legătură are El cu tine? Să vorbim." },
+  { code:'hr', flag:'🇭🇷', name:'Hrvatski',    title:'Dođite k Meni',      ph:'Postavite pitanje...',       inst:'Respond entirely in Croatian (Hrvatski).',
+    open:"Ovdje ste iz nekog razloga — možda iz znatiželje, možda zbog pitanja koje vas ne ostavlja na miru, možda zbog nečeg dubljeg. Što god vas dovelo, drago mi je da ste došli.\n\nPostoji jedno pitanje koje je važnije od svih ostalih: Tko je Isus i što ima veze s vama? Razgovarajmo." },
+  { code:'he', flag:'🇮🇱', name:'עברית',       title:'בואו אליי',           ph:'שאל שאלה...',               inst:'Respond entirely in Hebrew (עברית). Use right-to-left text.', rtl:true,
+    open:"אתה כאן מסיבה כלשהי — אולי מסקרנות, אולי בגלל שאלה שלא נותנת לך מנוחה, אולי בגלל משהו עמוק יותר. מה שלא הביא אותך לכאן, אני שמח שבאת.\n\nיש שאלה אחת שחשובה יותר מכל שאלה אחרת: מי הוא ישוע, ומה הקשר שלו אליך? בוא נדבר." },
+  { code:'sw', flag:'🇰🇪', name:'Swahili',     title:'Njooni Kwangu',      ph:'Uliza swali...',             inst:'Respond entirely in Swahili (Kiswahili).',
+    open:"Uko hapa kwa sababu — labda kwa udadisi, labda kwa swali ambalo halikuachi, labda kwa kitu kizito zaidi. Chochote kilichokuleta hapa, ninafurahi umefika.\n\nKuna swali moja ambalo lina maana zaidi kuliko yote: Yesu ni nani, na ana uhusiano gani nawe? Hebu tuzungumze." },
+  { code:'id', flag:'🇮🇩', name:'Indonesia',   title:'Datanglah kepadaKu', ph:'Ajukan pertanyaan...',       inst:'Respond entirely in Indonesian (Bahasa Indonesia).',
+    open:"Anda di sini karena suatu alasan — mungkin karena rasa ingin tahu, mungkin karena sebuah pertanyaan yang tidak bisa Anda abaikan, mungkin karena sesuatu yang lebih dalam. Apapun yang membawa Anda ke sini, saya senang Anda datang.\n\nAda satu pertanyaan yang lebih penting dari pertanyaan lainnya: Siapa Yesus, dan apa hubungan-Nya dengan Anda? Mari kita bicara." },
+];
 
-// Full conversation history sent to API on each request
-let history = [{ role: 'assistant', content: OPENING }];
+let currentLang = LANGS[0];
+let history = [];
 let busy = false;
+let dropOpen = false;
 
-const msgsEl  = document.getElementById('messages');
-const inputEl = document.getElementById('msg-input');
-const btnEl   = document.getElementById('send-btn');
+const msgsEl    = document.getElementById('messages');
+const inputEl   = document.getElementById('msg-input');
+const btnEl     = document.getElementById('send-btn');
+const langBtn   = document.getElementById('lang-btn');
+const langFlag  = document.getElementById('lang-flag');
+const dropdown  = document.getElementById('lang-dropdown');
+const hTitle    = document.getElementById('h-title');
 
-// ── Bootstrap ──────────────────────────────────
+/* Build dropdown options */
+LANGS.forEach(L => {
+  const el = document.createElement('div');
+  el.className = 'lang-opt';
+  el.dataset.code = L.code;
+  el.innerHTML = `<span class="lang-flag">${L.flag}</span><span class="lang-name">${L.name}</span>`;
+  el.addEventListener('click', () => { selectLang(L.code); });
+  dropdown.appendChild(el);
+});
+
+function toggleDropdown() {
+  dropOpen = !dropOpen;
+  dropdown.classList.toggle('open', dropOpen);
+}
+
+function closeDropdown() {
+  dropOpen = false;
+  dropdown.classList.remove('open');
+}
+
+langBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleDropdown(); });
+document.addEventListener('click', closeDropdown);
+dropdown.addEventListener('click', (e) => e.stopPropagation());
+
+function selectLang(code) {
+  const L = LANGS.find(l => l.code === code);
+  if (!L) return;
+  currentLang = L;
+  langFlag.textContent = L.flag;
+  hTitle.textContent   = L.title;
+  inputEl.placeholder  = L.ph;
+  document.documentElement.setAttribute('dir', L.rtl ? 'rtl' : 'ltr');
+  dropdown.querySelectorAll('.lang-opt').forEach(el => {
+    el.classList.toggle('active', el.dataset.code === code);
+  });
+  history = [{ role: 'assistant', content: L.open }];
+  msgsEl.innerHTML = '';
+  addBotMsg(L.open);
+  btnEl.disabled = true;
+  inputEl.value = '';
+  inputEl.style.height = 'auto';
+  closeDropdown();
+}
+
 function init() {
-  addBotMsg(OPENING);
+  selectLang('en');
   inputEl.addEventListener('input', handleInput);
   inputEl.addEventListener('keydown', handleKey);
   btnEl.addEventListener('click', submit);
 }
 
-// ── Input ───────────────────────────────────────
 function handleInput() {
   inputEl.style.height = 'auto';
   inputEl.style.height = Math.min(inputEl.scrollHeight, 120) + 'px';
@@ -313,138 +276,76 @@ function handleInput() {
 }
 
 function handleKey(e) {
-  if (e.key === 'Enter' && !e.shiftKey) {
-    e.preventDefault();
-    if (!btnEl.disabled) submit();
-  }
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); if (!btnEl.disabled) submit(); }
 }
 
-// ── Submit ──────────────────────────────────────
 async function submit() {
   const text = inputEl.value.trim();
   if (!text || busy) return;
-
-  inputEl.value = '';
-  inputEl.style.height = 'auto';
-  btnEl.disabled = true;
-  busy = true;
-
+  inputEl.value = ''; inputEl.style.height = 'auto';
+  btnEl.disabled = true; busy = true;
   addUserMsg(text);
   history.push({ role: 'user', content: text });
+  const typingEl = addTyping(); scrollEnd();
 
-  const typingEl = addTyping();
-  scrollEnd();
-
-  // Bot message container (hidden until first chunk arrives)
-  const botDiv = document.createElement('div');
-  botDiv.className = 'msg bot';
-  const bubbleDiv = document.createElement('div');
-  bubbleDiv.className = 'bubble';
+  const botDiv = document.createElement('div'); botDiv.className = 'msg bot';
+  const bubbleDiv = document.createElement('div'); bubbleDiv.className = 'bubble';
   botDiv.appendChild(bubbleDiv);
-
   let reply = '';
 
   try {
-    await streamChat(history, (chunk) => {
-      if (typingEl.isConnected) {
-        typingEl.remove();
-        msgsEl.appendChild(botDiv);
-      }
-      reply += chunk;
-      bubbleDiv.textContent = reply;
-      scrollEnd();
+    await streamChat(history, currentLang.code, (chunk) => {
+      if (typingEl.isConnected) { typingEl.remove(); msgsEl.appendChild(botDiv); }
+      reply += chunk; bubbleDiv.textContent = reply; scrollEnd();
     });
     history.push({ role: 'assistant', content: reply });
   } catch (err) {
     if (typingEl.isConnected) typingEl.remove();
     addError('Something went wrong. Please try again.');
-    console.error(err);
   }
-
-  busy = false;
-  btnEl.disabled = !inputEl.value.trim();
-  scrollEnd();
+  busy = false; btnEl.disabled = !inputEl.value.trim(); scrollEnd();
 }
 
-// ── Streaming ───────────────────────────────────
-async function streamChat(messages, onChunk) {
+async function streamChat(messages, lang, onChunk) {
   const res = await fetch('/api/chat', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ messages }),
+    body: JSON.stringify({ messages, lang }),
   });
-
   if (!res.ok) throw new Error(`Server error ${res.status}`);
-
-  const reader = res.body.getReader();
-  const dec    = new TextDecoder();
-  let   buf    = '';
-
+  const reader = res.body.getReader(); const dec = new TextDecoder(); let buf = '';
   while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
-
+    const { done, value } = await reader.read(); if (done) break;
     buf += dec.decode(value, { stream: true });
-    const lines = buf.split('\n');
-    buf = lines.pop() ?? '';
-
+    const lines = buf.split('\n'); buf = lines.pop() ?? '';
     for (const line of lines) {
       if (!line.startsWith('data: ')) continue;
-      const raw = line.slice(6).trim();
-      if (raw === '[DONE]') return;
-      try {
-        const ev = JSON.parse(raw);
-        if (ev.type === 'content_block_delta' && ev.delta?.type === 'text_delta') {
-          onChunk(ev.delta.text);
-        }
-      } catch { /* skip malformed lines */ }
+      const raw = line.slice(6).trim(); if (raw === '[DONE]') return;
+      try { const ev = JSON.parse(raw); if (ev.type === 'content_block_delta' && ev.delta?.type === 'text_delta') onChunk(ev.delta.text); } catch {}
     }
   }
 }
 
-// ── UI helpers ──────────────────────────────────
 function addBotMsg(text) {
-  const d = document.createElement('div');
-  d.className = 'msg bot';
-  const b = document.createElement('div');
-  b.className = 'bubble';
-  b.textContent = text;
-  d.appendChild(b);
-  msgsEl.appendChild(d);
-  scrollEnd();
+  const d = document.createElement('div'); d.className = 'msg bot';
+  const b = document.createElement('div'); b.className = 'bubble'; b.textContent = text;
+  d.appendChild(b); msgsEl.appendChild(d); scrollEnd();
 }
-
 function addUserMsg(text) {
-  const d = document.createElement('div');
-  d.className = 'msg user';
-  const b = document.createElement('div');
-  b.className = 'bubble';
-  b.textContent = text;
-  d.appendChild(b);
-  msgsEl.appendChild(d);
-  scrollEnd();
+  const d = document.createElement('div'); d.className = 'msg user';
+  const b = document.createElement('div'); b.className = 'bubble'; b.textContent = text;
+  d.appendChild(b); msgsEl.appendChild(d); scrollEnd();
 }
-
 function addTyping() {
-  const d = document.createElement('div');
-  d.className = 'msg bot';
+  const d = document.createElement('div'); d.className = 'msg bot';
   d.innerHTML = '<div class="typing"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>';
-  msgsEl.appendChild(d);
-  scrollEnd();
-  return d;
+  msgsEl.appendChild(d); scrollEnd(); return d;
 }
-
 function addError(msg) {
-  const d = document.createElement('div');
-  d.className = 'err';
-  d.textContent = msg;
-  msgsEl.appendChild(d);
-  scrollEnd();
+  const d = document.createElement('div'); d.className = 'err'; d.textContent = msg;
+  msgsEl.appendChild(d); scrollEnd();
 }
-
-function scrollEnd() {
-  msgsEl.scrollTop = msgsEl.scrollHeight;
-}
+function scrollEnd() { msgsEl.scrollTop = msgsEl.scrollHeight; }
 
 init();
 </script>
