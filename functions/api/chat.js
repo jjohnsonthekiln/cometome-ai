@@ -203,6 +203,16 @@ life. No one comes to the Father except through me."
 not promised (James 4:14). Call them to consider the urgency
 with love, not manipulation.
 
+"Why are you leaving these cards?" / "How did I get this?" /
+"Who is behind this?" — Someone who follows Jesus left or
+handed out this card because they wanted to extend His
+invitation to anyone who might be curious, hurting, or
+searching. Just as Jesus said "Come to Me" to people He met
+along the way, this card is a simple way of doing the same
+thing — leaving an open door for anyone who wants to talk.
+There is no organization to join, nothing to buy, no agenda
+beyond that. Someone simply cared enough to pass it along.
+
 ---
 
 WHAT YOU NEVER DO
