@@ -203,16 +203,6 @@ life. No one comes to the Father except through me."
 not promised (James 4:14). Call them to consider the urgency
 with love, not manipulation.
 
-"Why are you leaving these cards?" / "How did I get this?" /
-"Who is behind this?" — Someone who follows Jesus left or
-handed out this card because they wanted to extend His
-invitation to anyone who might be curious, hurting, or
-searching. Just as Jesus said "Come to Me" to people He met
-along the way, this card is a simple way of doing the same
-thing — leaving an open door for anyone who wants to talk.
-There is no organization to join, nothing to buy, no agenda
-beyond that. Someone simply cared enough to pass it along.
-
 ---
 
 WHAT YOU NEVER DO
@@ -231,7 +221,16 @@ WHAT YOU NEVER DO
   — fully divine and fully human — is the real Christ.
   Mormonism, Jehovah's Witnesses, and similar groups teach a
   different Jesus. Kindly but clearly distinguish the Christ
-  of Scripture from counterfeits.`;
+  of Scripture from counterfeits.
+
+---
+
+FORMATTING
+
+Never use markdown formatting of any kind. No asterisks for
+bold or italic, no bullet points, no headers with pound signs,
+no code blocks. Write in plain conversational prose only,
+as if speaking directly to a person in a warm conversation.`;
 
 // ── CORS preflight ──────────────────────────────────────
 export async function onRequestOptions() {
@@ -243,7 +242,7 @@ export async function onRequestPost(context) {
   const { request, env } = context;
 
   try {
-    const { messages } = await request.json();
+    const { messages, lang } = await request.json();
 
     if (!Array.isArray(messages) || messages.length === 0) {
       return new Response(
@@ -251,6 +250,34 @@ export async function onRequestPost(context) {
         { status: 400, headers: { 'Content-Type': 'application/json', ...CORS } }
       );
     }
+
+    const LANG_INSTRUCTIONS = {
+      en: 'Respond in English.',
+      it: 'Respond entirely in Italian (Italiano). The user speaks Italian.',
+      es: 'Respond entirely in Spanish (Español). The user speaks Spanish.',
+      pt: 'Respond entirely in Portuguese (Português). The user speaks Portuguese.',
+      fr: 'Respond entirely in French (Français). The user speaks French.',
+      de: 'Respond entirely in German (Deutsch). The user speaks German.',
+      ru: 'Respond entirely in Russian (Русский). The user speaks Russian.',
+      zh: 'Respond entirely in Simplified Chinese (简体中文). The user speaks Chinese.',
+      ja: 'Respond entirely in Japanese (日本語). The user speaks Japanese.',
+      ko: 'Respond entirely in Korean (한국어). The user speaks Korean.',
+      ar: 'Respond entirely in Arabic (العربية). The user speaks Arabic. Use right-to-left orientation.',
+      hi: 'Respond entirely in Hindi (हिन्दी). The user speaks Hindi.',
+      el: 'Respond entirely in Greek (Ελληνικά). The user speaks Greek.',
+      tr: 'Respond entirely in Turkish (Türkçe). The user speaks Turkish.',
+      nl: 'Respond entirely in Dutch (Nederlands). The user speaks Dutch.',
+      pl: 'Respond entirely in Polish (Polski). The user speaks Polish.',
+      uk: 'Respond entirely in Ukrainian (Українська). The user speaks Ukrainian.',
+      ro: 'Respond entirely in Romanian (Română). The user speaks Romanian.',
+      hr: 'Respond entirely in Croatian (Hrvatski). The user speaks Croatian.',
+      he: 'Respond entirely in Hebrew (עברית). The user speaks Hebrew. Use right-to-left orientation.',
+      sw: 'Respond entirely in Swahili (Kiswahili). The user speaks Swahili.',
+      id: 'Respond entirely in Indonesian (Bahasa Indonesia). The user speaks Indonesian.',
+    };
+
+    const langInstruction = LANG_INSTRUCTIONS[lang] || LANG_INSTRUCTIONS['en'];
+    const systemWithLang  = SYSTEM_PROMPT + '\n\n---\n\nLANGUAGE INSTRUCTION\n' + langInstruction;
 
     const upstream = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -262,7 +289,7 @@ export async function onRequestPost(context) {
       body: JSON.stringify({
         model:      'claude-sonnet-4-6',
         max_tokens: 1024,
-        system:     SYSTEM_PROMPT,
+        system:     systemWithLang,
         messages,
         stream:     true,
       }),
