@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#18150F">
+<meta name="theme-color" content="#0F1520">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Come to Me</title>
@@ -12,11 +12,11 @@
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --bg: #18150F; --bg-3: #2A2520;
-  --cream: #EDE0C4; --gold: #C9A96E; --gold-dim: #7a6b4a;
-  --crimson: #C03040; --crimson-dk: #8B1520;
-  --border: rgba(201,169,110,0.12);
-  --bot-bg: #F0E8D4; --bot-text: #1C1812;
+  --bg: #0F1520; --bg-3: #1A2234;
+  --cream: #D4C9A8; --gold: #C4B47A; --gold-dim: #7A7050;
+  --crimson: #B84050; --crimson-dk: #8B2030;
+  --border: rgba(180,160,100,0.15);
+  --bot-bg: #F4EFE0; --bot-text: #100F08;
   --serif: 'Cormorant Garamond', Georgia, serif;
   --sans: 'Lato', sans-serif;
 }
@@ -90,7 +90,7 @@ header { display: flex; align-items: center; gap: 12px; padding: 14px 20px 13px;
 @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 .msg.bot  { align-self: flex-start; }
 .msg.user { align-self: flex-end; }
-.bubble { padding: 12px 16px; font-size: 15px; line-height: 1.7; white-space: pre-wrap; word-break: break-word; }
+.bubble { padding: 13px 17px; font-size: 17px; line-height: 1.75; white-space: pre-wrap; word-break: break-word; }
 .msg.bot  .bubble { background: var(--bot-bg); color: var(--bot-text); border-radius: 18px 18px 18px 4px; font-family: var(--sans); font-weight: 300; }
 .msg.user .bubble { background: var(--bg-3); color: var(--cream); border-radius: 18px 18px 4px 18px; border: 0.5px solid rgba(201,169,110,0.18); }
 .typing { display: flex; gap: 5px; align-items: center; padding: 14px 18px; background: var(--bot-bg); border-radius: 18px 18px 18px 4px; width: fit-content; }
@@ -104,7 +104,7 @@ header { display: flex; align-items: center; gap: 12px; padding: 14px 20px 13px;
 #input-area { padding: 10px 14px; padding-bottom: calc(10px + env(safe-area-inset-bottom)); border-top: 0.5px solid var(--border); background: var(--bg); flex-shrink: 0; }
 .input-row { display: flex; align-items: flex-end; gap: 8px; background: var(--bg-3); border: 0.5px solid rgba(201,169,110,0.2); border-radius: 26px; padding: 8px 8px 8px 16px; transition: border-color 0.15s; }
 .input-row:focus-within { border-color: rgba(201,169,110,0.4); }
-textarea { flex: 1; background: transparent; border: none; outline: none; color: var(--cream); font-family: var(--sans); font-weight: 300; font-size: 15px; line-height: 1.5; resize: none; max-height: 120px; min-height: 22px; padding: 1px 0; caret-color: var(--gold); }
+textarea { flex: 1; background: transparent; border: none; outline: none; color: var(--cream); font-family: var(--sans); font-weight: 300; font-size: 17px; line-height: 1.5; resize: none; max-height: 120px; min-height: 22px; padding: 1px 0; caret-color: var(--gold); }
 textarea::placeholder { color: var(--gold-dim); opacity: 0.7; }
 #send-btn { width: 36px; height: 36px; flex-shrink: 0; border: none; border-radius: 50%; background: var(--crimson); color: #fff; cursor: pointer; display: grid; place-items: center; transition: background 0.15s, transform 0.1s, opacity 0.15s; }
 #send-btn:hover:not(:disabled)  { background: var(--crimson-dk); }
@@ -158,47 +158,47 @@ const LANGS = [
   { code:'en', flag:'🇬🇧', name:'English',    title:'Come to Me',         ph:'Ask anything...',           inst:'Respond in English.',
     open:"Hello. I'm glad you're here. Whatever brought you — a question, a doubt, something heavy on your heart — I'd love to hear it. What's on your mind?" },
   { code:'it', flag:'🇮🇹', name:'Italiano',    title:'Vieni a Me',          ph:'Chiedi qualcosa...',        inst:'Respond entirely in Italian (Italiano).',
-    open:"Sei qui per un motivo — forse per curiosità, forse per una domanda che non ti lascia in pace, forse per qualcosa di più profondo. Qualunque cosa ti abbia portato qui, sono contento che tu sia venuto.\n\nC'è una domanda che conta più di qualsiasi altra: Chi è Gesù, e cosa ha a che fare con te? Parliamone." },
+    open:"Ciao. Sono contento che tu sia qui. Qualunque cosa ti abbia portato — una domanda, un dubbio, qualcosa di pesante nel cuore — mi piacerebbe ascoltarti. Cosa hai in mente?" },
   { code:'es', flag:'🇪🇸', name:'Español',     title:'Ven a Mí',            ph:'Pregunta algo...',          inst:'Respond entirely in Spanish (Español).',
-    open:"Estás aquí por una razón — quizás por curiosidad, quizás por una pregunta que no te deja en paz, quizás por algo más profundo. Sea lo que sea que te trajo, me alegra que hayas venido.\n\nHay una pregunta que importa más que ninguna otra: ¿Quién es Jesús, y qué tiene que ver contigo? Hablemos." },
+    open:"Hola. Me alegra que estés aquí. Lo que sea que te haya traído — una pregunta, una duda, algo pesado en el corazón — me encantaría escucharlo. ¿Qué tienes en mente?" },
   { code:'pt', flag:'🇧🇷', name:'Português',   title:'Vinde a Mim',         ph:'Faça uma pergunta...',      inst:'Respond entirely in Portuguese (Português).',
-    open:"Você está aqui por uma razão — talvez por curiosidade, talvez por uma pergunta que não te deixa em paz, talvez por algo mais profundo. Seja o que for que te trouxe, fico feliz que você veio.\n\nHá uma pergunta que importa mais do que qualquer outra: Quem é Jesus, e o que Ele tem a ver com você? Vamos conversar." },
+    open:"Olá. Fico feliz que você esteja aqui. O que quer que tenha te trazido — uma pergunta, uma dúvida, algo pesado no coração — adoraria ouvir. O que está em sua mente?" },
   { code:'fr', flag:'🇫🇷', name:'Français',    title:'Venez à Moi',         ph:'Posez une question...',     inst:'Respond entirely in French (Français).',
-    open:"Vous êtes ici pour une raison — peut-être par curiosité, peut-être pour une question qui ne vous quitte pas, peut-être pour quelque chose de plus profond. Quoi qu'il vous ait amené ici, je suis heureux que vous soyez venu.\n\nIl y a une question qui compte plus que toute autre : Qui est Jésus, et qu'a-t-il à voir avec vous ? Parlons-en." },
+    open:"Bonjour. Je suis heureux que vous soyez ici. Quoi que vous ayez amené — une question, un doute, quelque chose de lourd sur le cœur — j'aimerais l'entendre. Qu'avez-vous à l'esprit ?" },
   { code:'de', flag:'🇩🇪', name:'Deutsch',     title:'Kommt zu Mir',        ph:'Stellen Sie eine Frage...', inst:'Respond entirely in German (Deutsch).',
-    open:"Sie sind aus einem Grund hier — vielleicht aus Neugier, vielleicht wegen einer Frage, die Sie nicht loslässt, vielleicht wegen etwas Tieferem. Was auch immer Sie hierher geführt hat — ich bin froh, dass Sie da sind.\n\nEs gibt eine Frage, die mehr zählt als jede andere: Wer ist Jesus, und was hat Er mit Ihnen zu tun? Lassen Sie uns reden." },
+    open:"Hallo. Ich bin froh, dass Sie hier sind. Was auch immer Sie hergeführt hat — eine Frage, ein Zweifel, etwas Schweres auf dem Herzen — ich würde es gerne hören. Was beschäftigt Sie?" },
   { code:'ru', flag:'🇷🇺', name:'Русский',     title:'Придите ко Мне',      ph:'Задайте вопрос...',         inst:'Respond entirely in Russian (Русский).',
-    open:"Вы здесь не случайно — возможно, из любопытства, возможно, с вопросом, который не даёт покоя, возможно, с чем-то более глубоким. Что бы ни привело вас сюда, я рад, что вы пришли.\n\nЕсть один вопрос, который важнее всех остальных: Кто такой Иисус, и какое Он имеет к вам отношение? Давайте поговорим." },
+    open:"Здравствуйте. Я рад, что вы здесь. Что бы вас ни привело — вопрос, сомнение, что-то тяжёлое на сердце — я хотел бы это услышать. Что у вас на уме?" },
   { code:'zh', flag:'🇨🇳', name:'中文',         title:'来就我',               ph:'请提问...',                  inst:'Respond entirely in Simplified Chinese (简体中文).',
-    open:"你来这里是有原因的——也许是出于好奇，也许是有一个问题一直困扰着你，也许是某种更深的东西。无论是什么带你来到这里，我都很高兴你来了。\n\n有一个问题比其他任何问题都重要：耶稣是谁，他与你有什么关系？我们来谈谈。" },
+    open:"你好。很高兴你在这里。无论是什么带你来到这里——一个问题、一个疑惑、还是心中某些沉重的事——我很想听。你在想什么？" },
   { code:'ja', flag:'🇯🇵', name:'日本語',       title:'我に来たれ',           ph:'質問してください...',        inst:'Respond entirely in Japanese (日本語).',
-    open:"あなたがここに来たのには理由があります——好奇心からかもしれない、頭から離れない疑問があるからかもしれない、あるいはもっと深いものがあるからかもしれない。何があなたをここに連れてきたとしても、来てくださってうれしいです。\n\nどんな問いよりも大切な問いがあります：イエスとは誰であり、あなたとどのような関係があるのでしょうか？話し合いましょう。" },
+    open:"こんにちは。来てくださってうれしいです。何があなたをここに連れてきたとしても——質問、疑い、心に重いもの——ぜひ聞かせてください。何を考えていますか？" },
   { code:'ko', flag:'🇰🇷', name:'한국어',       title:'내게로 오라',          ph:'질문하세요...',              inst:'Respond entirely in Korean (한국어).',
-    open:"당신이 여기 온 데는 이유가 있습니다 — 호기심 때문일 수도, 머릿속을 떠나지 않는 질문 때문일 수도, 아니면 더 깊은 무언가 때문일 수도 있습니다. 무엇이 당신을 이곳에 데려왔든, 오신 것을 기쁘게 생각합니다.\n\n다른 무엇보다 중요한 질문이 하나 있습니다: 예수님은 누구이시며, 당신과 어떤 관계가 있으신가요? 이야기해 봅시다." },
+    open:"안녕하세요. 여기 오신 것을 기쁘게 생각합니다. 무엇이 당신을 이곳에 데려왔든 — 질문, 의심, 마음에 무거운 것 — 들어보고 싶습니다. 무슨 생각을 하고 계신가요?" },
   { code:'ar', flag:'🇸🇦', name:'العربية',     title:'تعالوا إليّ',          ph:'اطرح سؤالاً...',            inst:'Respond entirely in Arabic (العربية). Use right-to-left text.', rtl:true,
-    open:"أنت هنا لسبب ما — ربما من فضول، ربما بسبب سؤال لا يتركك، ربما بسبب شيء أعمق من ذلك. مهما كان الذي أتى بك، يسعدني أنك جئت.\n\nهناك سؤال يهم أكثر من أي سؤال آخر: من هو يسوع، وما علاقته بك؟ لنتحدث." },
+    open:"مرحباً. يسعدني أنك هنا. مهما كان الذي أتى بك — سؤال، شك، شيء ثقيل على القلب — أود أن أسمعه. ما الذي يشغل بالك؟" },
   { code:'hi', flag:'🇮🇳', name:'हिन्दी',      title:'मेरे पास आओ',         ph:'कुछ पूछें...',              inst:'Respond entirely in Hindi (हिन्दी).',
-    open:"आप यहाँ किसी कारण से आए हैं — शायद जिज्ञासा से, शायद किसी ऐसे सवाल से जो आपको चैन नहीं देता, शायद कुछ और गहरे कारण से। जो भी आपको यहाँ लाया, मुझे खुशी है कि आप आए।\n\nएक सवाल है जो बाकी सभी से ज़्यादा मायने रखता है: यीशु कौन हैं, और उनका आपसे क्या संबंध है? आइए बात करें।" },
+    open:"नमस्ते। खुशी है कि आप यहाँ हैं। जो भी आपको यहाँ लाया — एक सवाल, एक संशय, दिल पर कुछ भारी — मैं सुनना चाहूँगा। आपके मन में क्या है?" },
   { code:'el', flag:'🇬🇷', name:'Ελληνικά',    title:'Ελάτε σε Μένα',      ph:'Ρωτήστε κάτι...',           inst:'Respond entirely in Greek (Ελληνικά).',
-    open:"Είσαι εδώ για κάποιο λόγο — ίσως από περιέργεια, ίσως για μια ερώτηση που δεν σε αφήνει ήσυχο, ίσως για κάτι πιο βαθύ. Ό,τι κι αν σε έφερε εδώ, χαίρομαι που ήρθες.\n\nΥπάρχει μια ερώτηση που μετράει περισσότερο από οποιαδήποτε άλλη: Ποιος είναι ο Ιησούς, και τι σχέση έχει μαζί σου; Ας μιλήσουμε." },
+    open:"Γεια σου. Χαίρομαι που είσαι εδώ. Ό,τι κι αν σε έφερε — μια ερώτηση, μια αμφιβολία, κάτι βαρύ στην καρδιά — θα ήθελα να το ακούσω. Τι έχεις στο μυαλό σου;" },
   { code:'tr', flag:'🇹🇷', name:'Türkçe',      title:'Bana Gel',            ph:'Bir şey sorun...',           inst:'Respond entirely in Turkish (Türkçe).',
-    open:"Buraya bir nedenle geldiniz — belki meraktan, belki sizi bırakmayan bir sorudan, belki daha derin bir şeyden. Sizi buraya ne getirmiş olursa olsun, geldiğinize sevindim.\n\nDiğer tüm sorulardan daha önemli bir soru var: İsa kimdir ve sizinle ne ilgisi var? Konuşalım." },
+    open:"Merhaba. Burada olduğunuza sevindim. Sizi buraya ne getirmiş olursa olsun — bir soru, bir şüphe, kalbinizde ağır bir şey — duymak isterim. Aklınızda ne var?" },
   { code:'nl', flag:'🇳🇱', name:'Nederlands',  title:'Kom tot Mij',         ph:'Stel een vraag...',          inst:'Respond entirely in Dutch (Nederlands).',
-    open:"Je bent hier om een reden — misschien uit nieuwsgierigheid, misschien vanwege een vraag die je niet loslaat, misschien om iets diepers. Wat je ook hierheen heeft gebracht, ik ben blij dat je er bent.\n\nEr is één vraag die meer telt dan welke andere dan ook: Wie is Jezus, en wat heeft Hij met jou te maken? Laten we praten." },
+    open:"Hallo. Ik ben blij dat je er bent. Wat je ook hierheen heeft gebracht — een vraag, een twijfel, iets zwaar op je hart — ik zou het graag horen. Wat houdt je bezig?" },
   { code:'pl', flag:'🇵🇱', name:'Polski',      title:'Przyjdźcie do Mnie',  ph:'Zadaj pytanie...',           inst:'Respond entirely in Polish (Polski).',
-    open:"Jesteś tutaj z jakiegoś powodu — może z ciekawości, może z powodu pytania, które nie daje ci spokoju, może z powodu czegoś głębszego. Cokolwiek cię tu przyprowadziło, cieszę się, że jesteś.\n\nJest jedno pytanie, które jest ważniejsze niż wszystkie inne: Kim jest Jezus i co ma z tobą wspólnego? Porozmawiajmy." },
+    open:"Cześć. Cieszę się, że tu jesteś. Cokolwiek cię tu przyprowadziło — pytanie, wątpliwość, coś ciężkiego na sercu — chętnie posłucham. Co masz na myśli?" },
   { code:'uk', flag:'🇺🇦', name:'Українська',  title:'Прийдіть до Мене',   ph:'Задайте питання...',         inst:'Respond entirely in Ukrainian (Українська).',
-    open:"Ви тут не випадково — можливо, з цікавості, можливо, з питанням, яке не дає спокою, можливо, з чимось глибшим. Що б не привело вас сюди, я радий, що ви прийшли.\n\nЄ одне питання, яке важливіше за всі інші: Хто такий Ісус, і яке Він має відношення до вас? Давайте поговоримо." },
+    open:"Привіт. Радий, що ви тут. Що б вас не привело — питання, сумнів, щось важке на серці — я хотів би це почути. Що у вас на думці?" },
   { code:'ro', flag:'🇷🇴', name:'Română',      title:'Veniți la Mine',     ph:'Puneți o întrebare...',      inst:'Respond entirely in Romanian (Română).',
-    open:"Ești aici dintr-un motiv — poate din curiozitate, poate din cauza unei întrebări care nu te lasă în pace, poate din ceva mai profund. Orice te-a adus aici, mă bucur că ai venit.\n\nExistă o întrebare care contează mai mult decât oricare alta: Cine este Isus și ce legătură are El cu tine? Să vorbim." },
+    open:"Bună. Mă bucur că ești aici. Orice te-a adus — o întrebare, o îndoială, ceva greu pe inimă — aș vrea să aud. Ce ai în minte?" },
   { code:'hr', flag:'🇭🇷', name:'Hrvatski',    title:'Dođite k Meni',      ph:'Postavite pitanje...',       inst:'Respond entirely in Croatian (Hrvatski).',
-    open:"Ovdje ste iz nekog razloga — možda iz znatiželje, možda zbog pitanja koje vas ne ostavlja na miru, možda zbog nečeg dubljeg. Što god vas dovelo, drago mi je da ste došli.\n\nPostoji jedno pitanje koje je važnije od svih ostalih: Tko je Isus i što ima veze s vama? Razgovarajmo." },
+    open:"Zdravo. Drago mi je da ste ovdje. Što god vas dovelo — pitanje, sumnja, nešto teško na srcu — rado bih čuo. Što vam je na umu?" },
   { code:'he', flag:'🇮🇱', name:'עברית',       title:'בואו אליי',           ph:'שאל שאלה...',               inst:'Respond entirely in Hebrew (עברית). Use right-to-left text.', rtl:true,
-    open:"אתה כאן מסיבה כלשהי — אולי מסקרנות, אולי בגלל שאלה שלא נותנת לך מנוחה, אולי בגלל משהו עמוק יותר. מה שלא הביא אותך לכאן, אני שמח שבאת.\n\nיש שאלה אחת שחשובה יותר מכל שאלה אחרת: מי הוא ישוע, ומה הקשר שלו אליך? בוא נדבר." },
+    open:"שלום. שמח שאתה כאן. מה שלא הביא אותך — שאלה, ספק, משהו כבד בלב — אשמח לשמוע. מה עובר לך בראש?" },
   { code:'sw', flag:'🇰🇪', name:'Swahili',     title:'Njooni Kwangu',      ph:'Uliza swali...',             inst:'Respond entirely in Swahili (Kiswahili).',
-    open:"Uko hapa kwa sababu — labda kwa udadisi, labda kwa swali ambalo halikuachi, labda kwa kitu kizito zaidi. Chochote kilichokuleta hapa, ninafurahi umefika.\n\nKuna swali moja ambalo lina maana zaidi kuliko yote: Yesu ni nani, na ana uhusiano gani nawe? Hebu tuzungumze." },
+    open:"Habari. Ninafurahi uko hapa. Chochote kilichokuleta — swali, shaka, kitu kizito moyoni — ningependa kusikia. Unafikiria nini?" },
   { code:'id', flag:'🇮🇩', name:'Indonesia',   title:'Datanglah kepadaKu', ph:'Ajukan pertanyaan...',       inst:'Respond entirely in Indonesian (Bahasa Indonesia).',
-    open:"Anda di sini karena suatu alasan — mungkin karena rasa ingin tahu, mungkin karena sebuah pertanyaan yang tidak bisa Anda abaikan, mungkin karena sesuatu yang lebih dalam. Apapun yang membawa Anda ke sini, saya senang Anda datang.\n\nAda satu pertanyaan yang lebih penting dari pertanyaan lainnya: Siapa Yesus, dan apa hubungan-Nya dengan Anda? Mari kita bicara." },
+    open:"Halo. Senang kamu di sini. Apapun yang membawamu ke sini — pertanyaan, keraguan, sesuatu yang berat di hati — ingin mendengarnya. Apa yang ada di pikiranmu?" },
 ];
 
 let currentLang = LANGS[0];
