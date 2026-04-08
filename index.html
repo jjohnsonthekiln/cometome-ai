@@ -125,8 +125,8 @@ header { display: flex; align-items: center; gap: 12px; padding: 14px 20px 13px;
 #input-area { padding: 10px 14px; padding-bottom: calc(10px + env(safe-area-inset-bottom)); border-top: 0.5px solid var(--border); background: var(--bg); flex-shrink: 0; }
 .input-row { display: flex; align-items: flex-end; gap: 8px; background: var(--bg-3); border: 0.5px solid rgba(201,169,110,0.2); border-radius: 26px; padding: 8px 8px 8px 16px; transition: border-color 0.15s; }
 .input-row:focus-within { border-color: rgba(201,169,110,0.4); }
-textarea { flex: 1; background: transparent; border: none; outline: none; color: var(--cream); font-family: var(--sans); font-weight: 300; font-size: 17px; line-height: 1.5; resize: none; max-height: 120px; min-height: 22px; padding: 1px 0; caret-color: var(--gold); }
-textarea::placeholder { color: var(--gold-dim); opacity: 0.7; }
+textarea { flex: 1; background: transparent; border: none; outline: none; color: #ffffff; font-family: var(--sans); font-weight: 300; font-size: 17px; line-height: 1.5; resize: none; max-height: 120px; min-height: 22px; padding: 1px 0; caret-color: #ffffff; }
+textarea::placeholder { color: #ffffff; opacity: 0.6; font-weight: 700; }
 #send-btn { width: 36px; height: 36px; flex-shrink: 0; border: none; border-radius: 50%; background: var(--crimson); color: #fff; cursor: pointer; display: grid; place-items: center; transition: background 0.15s, transform 0.1s, opacity 0.15s; }
 #send-btn:hover:not(:disabled)  { background: var(--crimson-dk); }
 #send-btn:active:not(:disabled) { transform: scale(0.91); }
