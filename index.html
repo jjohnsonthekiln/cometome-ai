@@ -130,10 +130,6 @@ textarea::placeholder { color: var(--gold-dim); opacity: 0.7; }
       <rect x="476" y="222" width="72" height="582" rx="10" fill="white"/>
       <rect x="334" y="408" width="356" height="72" rx="10" fill="white"/>
     </svg>
-    <div class="h-text">
-      <h1 id="h-title">Come to Me</h1>
-      <p>Matthew 11:28</p>
-    </div>
     <button id="lang-btn" aria-haspopup="listbox">
       <span id="lang-flag">🇬🇧</span>
       <span style="font-size:11px; color: var(--gold-dim);">▾</span>
@@ -160,7 +156,7 @@ textarea::placeholder { color: var(--gold-dim); opacity: 0.7; }
 
 const LANGS = [
   { code:'en', flag:'🇬🇧', name:'English',    title:'Come to Me',         ph:'Ask anything...',           inst:'Respond in English.',
-    open:"You're here for a reason — maybe curiosity, maybe a question that won't leave you alone, maybe something harder than that. Whatever brought you, I'm glad.\n\nThere's one question that matters more than any other: Who is Jesus, and what does He have to do with you? Let's talk." },
+    open:"Hello. I'm glad you're here. Whatever brought you — a question, a doubt, something heavy on your heart — I'd love to hear it. What's on your mind?" },
   { code:'it', flag:'🇮🇹', name:'Italiano',    title:'Vieni a Me',          ph:'Chiedi qualcosa...',        inst:'Respond entirely in Italian (Italiano).',
     open:"Sei qui per un motivo — forse per curiosità, forse per una domanda che non ti lascia in pace, forse per qualcosa di più profondo. Qualunque cosa ti abbia portato qui, sono contento che tu sia venuto.\n\nC'è una domanda che conta più di qualsiasi altra: Chi è Gesù, e cosa ha a che fare con te? Parliamone." },
   { code:'es', flag:'🇪🇸', name:'Español',     title:'Ven a Mí',            ph:'Pregunta algo...',          inst:'Respond entirely in Spanish (Español).',
@@ -249,7 +245,7 @@ function selectLang(code) {
   if (!L) return;
   currentLang = L;
   langFlag.textContent = L.flag;
-  hTitle.textContent   = L.title;
+  if (hTitle) hTitle.textContent = L.title;
   inputEl.placeholder  = L.ph;
   document.documentElement.setAttribute('dir', L.rtl ? 'rtl' : 'ltr');
   dropdown.querySelectorAll('.lang-opt').forEach(el => {
