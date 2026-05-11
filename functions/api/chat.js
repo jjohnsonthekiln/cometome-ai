@@ -1,3 +1,4 @@
+import { alertCounselors } from "./_alerts.js";
 // functions/api/chat.js
 // Cloudflare Pages Function — handles POST /api/chat
 // Requires environment variable: ANTHROPIC_API_KEY
@@ -250,6 +251,14 @@ export async function onRequestPost(context) {
         { status: 400, headers: { 'Content-Type': 'application/json', ...CORS } }
       );
     }
+
+    // ── New conversation alert ──────────────────────────────────────────────
+    // messages.length === 1 means this is the user's very first message.
+    // Fire-and-forget: don't await so it never delays the streaming response.
+    if (messages.length === 1 && messages[0].role === 'user') {
+      alertCounselors(env, messages[0].content).catch(() => {});
+    }
+    // ───────────────────────────────────────────────────────────────────────
 
     const LANG_INSTRUCTIONS = {
       en: 'Respond in English.',
