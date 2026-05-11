@@ -256,7 +256,7 @@ export async function onRequestPost(context) {
     // messages.length === 1 means this is the user's very first message.
     // Fire-and-forget: don't await so it never delays the streaming response.
     if (messages.length === 1 && messages[0].role === 'user') {
-      alertCounselors(env, messages[0].content).catch(() => {});
+      context.waitUntil(alertCounselors(env, messages[0].content));
     }
     // ───────────────────────────────────────────────────────────────────────
 
