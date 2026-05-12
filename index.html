@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#FAF4F0">
+<meta name="theme-color" content="#FAF7F1">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Come to Me</title>
@@ -12,48 +12,33 @@
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --bg: #FAF6EE; --bg-3: #A07840;
-  --cream: #4A3618; --gold: #A07840; --gold-dim: #806030;
-  --crimson: #A07840; --crimson-dk: #7A5820;
-  --border: rgba(74,54,24,0.12);
-  --bot-bg: #FFFFFF; --bot-text: #2E2010;
+  --bg: #FAF7F1;            /* warm off-white, picks up the logo's light edges */
+  --bg-3: #B8884A;          /* refined amber drawn from the logo's mid-tones */
+  --cream: #221810;         /* deep sepia-charcoal text — high contrast, readable */
+  --gold: #B8884A;          /* primary accent */
+  --gold-dim: #8C6638;      /* hover / muted accent */
+  --crimson: #B8884A;       /* send button (same accent family for harmony) */
+  --crimson-dk: #8C6638;    /* send button hover */
+  --border: rgba(34,24,16,0.10);
+  --bot-bg: #FFFFFF;
+  --bot-text: #221810;
   --serif: 'Cormorant Garamond', Georgia, serif;
   --sans: 'Lato', sans-serif;
-}
-[data-theme="blush"] {
-  --bg: #FAF4F0; --bg-3: #C97B6A;
-  --cream: #5C3A2E; --gold: #C97B6A; --gold-dim: #A07060;
-  --crimson: #C97B6A; --crimson-dk: #A05A4A;
-  --border: rgba(92,58,46,0.12);
-  --bot-bg: #FFFFFF; --bot-text: #3D2318;
-}
-[data-theme="lavender"] {
-  --bg: #F5F2FA; --bg-3: #8B6BB1;
-  --cream: #3D2A5C; --gold: #8B6BB1; --gold-dim: #7A5A9A;
-  --crimson: #8B6BB1; --crimson-dk: #6A4A90;
-  --border: rgba(61,42,92,0.12);
-  --bot-bg: #FFFFFF; --bot-text: #2A1A40;
-}
-[data-theme="sage"] {
-  --bg: #F3F7F2; --bg-3: #5A8054;
-  --cream: #2A3D28; --gold: #5A8054; --gold-dim: #4A6A44;
-  --crimson: #5A8054; --crimson-dk: #3A6034;
-  --border: rgba(42,61,40,0.12);
-  --bot-bg: #FFFFFF; --bot-text: #1C2E1A;
-}
-[data-theme="blue"] {
-  --bg: #E8EEF5; --bg-3: #2C5F8A;
-  --cream: #2C3E55; --gold: #2C5F8A; --gold-dim: #7A9AB8;
-  --crimson: #2C5F8A; --crimson-dk: #1A4A70;
-  --border: rgba(44,62,85,0.12);
-  --bot-bg: #FFFFFF; --bot-text: #1A2530;
 }
 html, body { height: 100%; background: var(--bg); color: var(--cream); font-family: var(--sans); font-weight: 300; -webkit-font-smoothing: antialiased; overscroll-behavior: none; }
 #app { display: flex; flex-direction: column; height: 100dvh; max-width: 680px; margin: 0 auto; }
 
 /* ── Header ── */
 header { display: flex; align-items: center; gap: 12px; padding: 14px 20px 13px; padding-top: calc(14px + env(safe-area-inset-top)); background: var(--bg); border-bottom: 0.5px solid var(--border); flex-shrink: 0; position: relative; }
-.h-logo { width: 36px; height: 36px; flex-shrink: 0; border-radius: 8px; object-fit: cover; }
+.h-logo {
+  width: 44px; height: 44px; flex-shrink: 0;
+  border-radius: 50%;
+  object-fit: cover;
+  /* Soft radial mask so the logo's dark outer rim dissolves into the page bg —
+     no hard edge between artwork and background. */
+  -webkit-mask-image: radial-gradient(circle at center, #000 55%, transparent 95%);
+          mask-image: radial-gradient(circle at center, #000 55%, transparent 95%);
+}
 .h-text { flex: 1; }
 .h-text h1 { font-family: var(--serif); font-weight: 300; font-size: 22px; color: var(--cream); line-height: 1; }
 .h-text p  { font-family: var(--serif); font-style: italic; font-size: 12px; color: var(--gold-dim); margin-top: 2px; }
@@ -77,6 +62,13 @@ header { display: flex; align-items: center; gap: 12px; padding: 14px 20px 13px;
   white-space: nowrap;
 }
 #lang-btn:hover { border-color: var(--gold); }
+#lang-globe { width: 16px; height: 16px; flex-shrink: 0; color: var(--cream); opacity: 0.85; }
+#lang-label { font-family: var(--sans); font-size: 14px; line-height: 1; color: var(--cream); }
+/* On very narrow phones, swap the full language name for its 2-letter code so the header never overflows. */
+@media (max-width: 420px) {
+  #lang-label { font-size: 0; }
+  #lang-label::after { content: attr(data-code); font-family: var(--sans); font-size: 13px; color: var(--cream); }
+}
 
 #lang-dropdown {
   display: none;
@@ -98,19 +90,17 @@ header { display: flex; align-items: center; gap: 12px; padding: 14px 20px 13px;
 .lang-opt {
   display: flex;
   align-items: center;
-  gap: 10px;
   padding: 10px 14px;
   cursor: pointer;
+  font-family: var(--sans);
   font-size: 14px;
-  color: var(--gold-dim);
+  color: var(--cream);
   transition: background 0.1s;
   border-bottom: 0.5px solid var(--border);
 }
 .lang-opt:last-child { border-bottom: none; }
-.lang-opt:hover { background: rgba(0,0,0,0.04); color: var(--cream); }
+.lang-opt:hover { background: rgba(0,0,0,0.04); }
 .lang-opt.active { color: var(--gold); font-weight: 400; }
-.lang-flag { font-size: 20px; line-height: 1; flex-shrink: 0; }
-.lang-name { font-size: 13px; }
 
 /* ── Messages ── */
 #messages { flex: 1; overflow-y: auto; padding: 24px 16px 12px; display: flex; flex-direction: column; gap: 14px; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
@@ -119,9 +109,9 @@ header { display: flex; align-items: center; gap: 12px; padding: 14px 20px 13px;
 .msg.bot  { align-self: flex-start; }
 .msg.user { align-self: flex-end; }
 .bubble { padding: 13px 17px; font-size: 17px; line-height: 1.75; white-space: pre-wrap; word-break: break-word; }
-.msg.bot  .bubble { background: var(--bot-bg); color: var(--bot-text); border-radius: 18px 18px 18px 4px; font-family: var(--serif); font-weight: 400; }
-.msg.user .bubble { background: var(--bg-3); color: #FFF8F5; border-radius: 18px 18px 4px 18px; border: none; }
-.typing { display: flex; gap: 5px; align-items: center; padding: 14px 18px; background: var(--bot-bg); border-radius: 18px 18px 18px 4px; width: fit-content; }
+.msg.bot  .bubble { background: var(--bot-bg); color: var(--bot-text); border-radius: 16px; font-family: var(--serif); font-weight: 400; }
+.msg.user .bubble { background: var(--bg-3); color: #FFF8F5; border-radius: 16px; border: none; }
+.typing { display: flex; gap: 5px; align-items: center; padding: 14px 18px; background: var(--bot-bg); border-radius: 16px; width: fit-content; }
 .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gold-dim); animation: bounce 1.1s infinite ease-in-out; }
 .dot:nth-child(2) { animation-delay: 0.18s; }
 .dot:nth-child(3) { animation-delay: 0.36s; }
@@ -129,11 +119,11 @@ header { display: flex; align-items: center; gap: 12px; padding: 14px 20px 13px;
 .err { align-self: center; font-size: 13px; color: #d07070; background: rgba(192,48,64,0.1); border: 0.5px solid rgba(192,48,64,0.25); padding: 9px 14px; border-radius: 10px; max-width: 80%; text-align: center; }
 
 /* ── Input ── */
-#input-area { padding: 10px 14px; padding-bottom: calc(10px + env(safe-area-inset-bottom)); border-top: 0.5px solid var(--border); background: var(--bg); flex-shrink: 0; }
-.input-row { display: flex; align-items: flex-end; gap: 8px; background: var(--bg-3); border: 0.5px solid rgba(201,169,110,0.2); border-radius: 26px; padding: 8px 8px 8px 16px; transition: border-color 0.15s; }
-.input-row:focus-within { border-color: rgba(201,169,110,0.4); }
-textarea { flex: 1; background: transparent; border: none; outline: none; color: #ffffff; font-family: var(--sans); font-weight: 300; font-size: 17px; line-height: 1.5; resize: none; max-height: 120px; min-height: 22px; padding: 1px 0; caret-color: #ffffff; }
-textarea::placeholder { color: #ffffff; opacity: 0.6; font-weight: 700; }
+#input-area { padding: 14px 14px 26px; padding-bottom: calc(26px + env(safe-area-inset-bottom)); border-top: 0.5px solid var(--border); background: var(--bg); flex-shrink: 0; }
+.input-row { display: flex; align-items: flex-end; gap: 8px; background: var(--bot-bg); border: 1px solid rgba(184,136,74,0.30); border-radius: 26px; padding: 8px 8px 8px 16px; transition: border-color 0.15s, box-shadow 0.15s; }
+.input-row:focus-within { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(184,136,74,0.10); }
+textarea { flex: 1; background: transparent; border: none; outline: none; color: var(--bot-text); font-family: var(--sans); font-weight: 300; font-size: 17px; line-height: 1.5; resize: none; max-height: 120px; min-height: 22px; padding: 1px 0; caret-color: var(--gold); }
+textarea::placeholder { color: var(--gold-dim); opacity: 0.7; font-weight: 400; }
 #send-btn { width: 36px; height: 36px; flex-shrink: 0; border: none; border-radius: 50%; background: var(--crimson); color: #fff; cursor: pointer; display: grid; place-items: center; transition: background 0.15s, transform 0.1s, opacity 0.15s; }
 #send-btn:hover:not(:disabled)  { background: var(--crimson-dk); }
 #send-btn:active:not(:disabled) { transform: scale(0.91); }
@@ -142,14 +132,9 @@ textarea::placeholder { color: #ffffff; opacity: 0.6; font-weight: 700; }
 #messages::-webkit-scrollbar { width: 3px; }
 #messages::-webkit-scrollbar-track { background: transparent; }
 #messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-#theme-swatches { display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
-.swatch { width: 18px; height: 18px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: border-color 0.15s, transform 0.1s; flex-shrink: 0; }
-.swatch:hover { transform: scale(1.15); }
-.swatch.active { border-color: var(--cream); }
-
 /* ── Mobile: bump up sizes for readability ── */
 @media (max-width: 680px) {
-  .h-logo { width: 48px; height: 48px; border-radius: 10px; }
+  .h-logo { width: 56px; height: 56px; border-radius: 50%; }
   .h-text h1 { font-size: 26px; }
   .h-text p  { font-size: 13px; }
   header { padding: 16px 18px 14px; gap: 14px; padding-top: calc(16px + env(safe-area-inset-top)); }
@@ -160,8 +145,6 @@ textarea::placeholder { color: #ffffff; opacity: 0.6; font-weight: 700; }
   #send-btn svg { width: 17px; height: 17px; }
   .input-row { padding: 9px 9px 9px 18px; }
   #lang-btn { font-size: 20px; padding: 6px 11px; }
-  .swatch { width: 20px; height: 20px; }
-  #theme-swatches { gap: 7px; }
   #contact-btn { padding: 8px 10px; }
   #contact-btn svg { width: 18px; height: 18px; }
 }
@@ -318,12 +301,8 @@ textarea::placeholder { color: #ffffff; opacity: 0.6; font-weight: 700; }
 <div id="app">
   <header>
     <img class="h-logo" src="come-to-me-icon.jpg" alt="Come to Me">
-    <div id="theme-swatches">
-      <div class="swatch" data-theme="blush" style="background:#C97B6A" title="Blush"></div>
-      <div class="swatch" data-theme="lavender" style="background:#8B6BB1" title="Lavender"></div>
-      <div class="swatch active" data-theme="" style="background:#A07840" title="Sand"></div>
-      <div class="swatch" data-theme="sage" style="background:#5A8054" title="Sage"></div>
-      <div class="swatch" data-theme="blue" style="background:#2C5F8A" title="Blue"></div>
+    <div class="h-text">
+      <h1 id="h-title">Come to Me</h1>
     </div>
     <button id="contact-btn" aria-label="Contact" title="Contact us">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -331,8 +310,13 @@ textarea::placeholder { color: #ffffff; opacity: 0.6; font-weight: 700; }
         <polyline points="22,6 12,13 2,6"/>
       </svg>
     </button>
-    <button id="lang-btn" aria-haspopup="listbox">
-      <span id="lang-flag">🇬🇧</span>
+    <button id="lang-btn" aria-haspopup="listbox" aria-label="Language">
+      <svg id="lang-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="2" y1="12" x2="22" y2="12"/>
+        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+      </svg>
+      <span id="lang-label">English</span>
       <span style="font-size:11px; color: var(--cream); opacity:0.6;">▾</span>
     </button>
     <div id="lang-dropdown" role="listbox"></div>
@@ -393,49 +377,49 @@ textarea::placeholder { color: #ffffff; opacity: 0.6; font-weight: 700; }
 
 const LANGS = [
   { code:'en', flag:'🇬🇧', name:'English',    title:'Come to Me',         ph:'Ask anything...',           inst:'Respond in English.',
-    open:"Hello. I'm glad you're here. Whatever brought you — a question, a doubt, something heavy on your heart — I'd love to hear it. What's on your mind?" },
+    open:"Hello. I'm glad you're here. Whatever brought you — curiosity, a question, a doubt, something heavy on your heart — I'd love to hear it. What's on your mind?" },
   { code:'it', flag:'🇮🇹', name:'Italiano',    title:'Vieni a Me',          ph:'Chiedi qualcosa...',        inst:'Respond entirely in Italian (Italiano).',
-    open:"Ciao. Sono contento che tu sia qui. Qualunque cosa ti abbia portato — una domanda, un dubbio, qualcosa di pesante nel cuore — mi piacerebbe ascoltarti. Cosa hai in mente?" },
+    open:"Ciao. Sono contento che tu sia qui. Qualunque cosa ti abbia portato — curiosità, una domanda, un dubbio, qualcosa di pesante nel cuore — mi piacerebbe ascoltarti. Cosa hai in mente?" },
   { code:'es', flag:'🇪🇸', name:'Español',     title:'Ven a Mí',            ph:'Pregunta algo...',          inst:'Respond entirely in Spanish (Español).',
-    open:"Hola. Me alegra que estés aquí. Lo que sea que te haya traído — una pregunta, una duda, algo pesado en el corazón — me encantaría escucharlo. ¿Qué tienes en mente?" },
+    open:"Hola. Me alegra que estés aquí. Lo que sea que te haya traído — curiosidad, una pregunta, una duda, algo pesado en el corazón — me encantaría escucharlo. ¿Qué tienes en mente?" },
   { code:'pt', flag:'🇧🇷', name:'Português',   title:'Vinde a Mim',         ph:'Faça uma pergunta...',      inst:'Respond entirely in Portuguese (Português).',
-    open:"Olá. Fico feliz que você esteja aqui. O que quer que tenha te trazido — uma pergunta, uma dúvida, algo pesado no coração — adoraria ouvir. O que está em sua mente?" },
+    open:"Olá. Fico feliz que você esteja aqui. O que quer que tenha te trazido — curiosidade, uma pergunta, uma dúvida, algo pesado no coração — adoraria ouvir. O que está em sua mente?" },
   { code:'fr', flag:'🇫🇷', name:'Français',    title:'Venez à Moi',         ph:'Posez une question...',     inst:'Respond entirely in French (Français).',
-    open:"Bonjour. Je suis heureux que vous soyez ici. Quoi que vous ayez amené — une question, un doute, quelque chose de lourd sur le cœur — j'aimerais l'entendre. Qu'avez-vous à l'esprit ?" },
+    open:"Bonjour. Je suis heureux que vous soyez ici. Quoi que vous ayez amené — de la curiosité, une question, un doute, quelque chose de lourd sur le cœur — j'aimerais l'entendre. Qu'avez-vous à l'esprit ?" },
   { code:'de', flag:'🇩🇪', name:'Deutsch',     title:'Kommt zu Mir',        ph:'Stellen Sie eine Frage...', inst:'Respond entirely in German (Deutsch).',
-    open:"Hallo. Ich bin froh, dass Sie hier sind. Was auch immer Sie hergeführt hat — eine Frage, ein Zweifel, etwas Schweres auf dem Herzen — ich würde es gerne hören. Was beschäftigt Sie?" },
+    open:"Hallo. Ich bin froh, dass Sie hier sind. Was auch immer Sie hergeführt hat — Neugier, eine Frage, ein Zweifel, etwas Schweres auf dem Herzen — ich würde es gerne hören. Was beschäftigt Sie?" },
   { code:'ru', flag:'🇷🇺', name:'Русский',     title:'Придите ко Мне',      ph:'Задайте вопрос...',         inst:'Respond entirely in Russian (Русский).',
-    open:"Здравствуйте. Я рад, что вы здесь. Что бы вас ни привело — вопрос, сомнение, что-то тяжёлое на сердце — я хотел бы это услышать. Что у вас на уме?" },
+    open:"Здравствуйте. Я рад, что вы здесь. Что бы вас ни привело — любопытство, вопрос, сомнение, что-то тяжёлое на сердце — я хотел бы это услышать. Что у вас на уме?" },
   { code:'zh', flag:'🇨🇳', name:'中文',         title:'来就我',               ph:'请提问...',                  inst:'Respond entirely in Simplified Chinese (简体中文).',
-    open:"你好。很高兴你在这里。无论是什么带你来到这里——一个问题、一个疑惑、还是心中某些沉重的事——我很想听。你在想什么？" },
+    open:"你好。很高兴你在这里。无论是什么带你来到这里——好奇、一个问题、一个疑惑、还是心中某些沉重的事——我很想听。你在想什么？" },
   { code:'ja', flag:'🇯🇵', name:'日本語',       title:'我に来たれ',           ph:'質問してください...',        inst:'Respond entirely in Japanese (日本語).',
-    open:"こんにちは。来てくださってうれしいです。何があなたをここに連れてきたとしても——質問、疑い、心に重いもの——ぜひ聞かせてください。何を考えていますか？" },
+    open:"こんにちは。来てくださってうれしいです。何があなたをここに連れてきたとしても——好奇心、質問、疑い、心に重いもの——ぜひ聞かせてください。何を考えていますか？" },
   { code:'ko', flag:'🇰🇷', name:'한국어',       title:'내게로 오라',          ph:'질문하세요...',              inst:'Respond entirely in Korean (한국어).',
-    open:"안녕하세요. 여기 오신 것을 기쁘게 생각합니다. 무엇이 당신을 이곳에 데려왔든 — 질문, 의심, 마음에 무거운 것 — 들어보고 싶습니다. 무슨 생각을 하고 계신가요?" },
+    open:"안녕하세요. 여기 오신 것을 기쁘게 생각합니다. 무엇이 당신을 이곳에 데려왔든 — 호기심, 질문, 의심, 마음에 무거운 것 — 들어보고 싶습니다. 무슨 생각을 하고 계신가요?" },
   { code:'ar', flag:'🇸🇦', name:'العربية',     title:'تعالوا إليّ',          ph:'اطرح سؤالاً...',            inst:'Respond entirely in Arabic (العربية). Use right-to-left text.', rtl:true,
-    open:"مرحباً. يسعدني أنك هنا. مهما كان الذي أتى بك — سؤال، شك، شيء ثقيل على القلب — أود أن أسمعه. ما الذي يشغل بالك؟" },
+    open:"مرحباً. يسعدني أنك هنا. مهما كان الذي أتى بك — فضول، سؤال، شك، شيء ثقيل على القلب — أود أن أسمعه. ما الذي يشغل بالك؟" },
   { code:'hi', flag:'🇮🇳', name:'हिन्दी',      title:'मेरे पास आओ',         ph:'कुछ पूछें...',              inst:'Respond entirely in Hindi (हिन्दी).',
-    open:"नमस्ते। खुशी है कि आप यहाँ हैं। जो भी आपको यहाँ लाया — एक सवाल, एक संशय, दिल पर कुछ भारी — मैं सुनना चाहूँगा। आपके मन में क्या है?" },
+    open:"नमस्ते। खुशी है कि आप यहाँ हैं। जो भी आपको यहाँ लाया — जिज्ञासा, एक सवाल, एक संशय, दिल पर कुछ भारी — मैं सुनना चाहूँगा। आपके मन में क्या है?" },
   { code:'el', flag:'🇬🇷', name:'Ελληνικά',    title:'Ελάτε σε Μένα',      ph:'Ρωτήστε κάτι...',           inst:'Respond entirely in Greek (Ελληνικά).',
-    open:"Γεια σου. Χαίρομαι που είσαι εδώ. Ό,τι κι αν σε έφερε — μια ερώτηση, μια αμφιβολία, κάτι βαρύ στην καρδιά — θα ήθελα να το ακούσω. Τι έχεις στο μυαλό σου;" },
+    open:"Γεια σου. Χαίρομαι που είσαι εδώ. Ό,τι κι αν σε έφερε — περιέργεια, μια ερώτηση, μια αμφιβολία, κάτι βαρύ στην καρδιά — θα ήθελα να το ακούσω. Τι έχεις στο μυαλό σου;" },
   { code:'tr', flag:'🇹🇷', name:'Türkçe',      title:'Bana Gel',            ph:'Bir şey sorun...',           inst:'Respond entirely in Turkish (Türkçe).',
-    open:"Merhaba. Burada olduğunuza sevindim. Sizi buraya ne getirmiş olursa olsun — bir soru, bir şüphe, kalbinizde ağır bir şey — duymak isterim. Aklınızda ne var?" },
+    open:"Merhaba. Burada olduğunuza sevindim. Sizi buraya ne getirmiş olursa olsun — merak, bir soru, bir şüphe, kalbinizde ağır bir şey — duymak isterim. Aklınızda ne var?" },
   { code:'nl', flag:'🇳🇱', name:'Nederlands',  title:'Kom tot Mij',         ph:'Stel een vraag...',          inst:'Respond entirely in Dutch (Nederlands).',
-    open:"Hallo. Ik ben blij dat je er bent. Wat je ook hierheen heeft gebracht — een vraag, een twijfel, iets zwaar op je hart — ik zou het graag horen. Wat houdt je bezig?" },
+    open:"Hallo. Ik ben blij dat je er bent. Wat je ook hierheen heeft gebracht — nieuwsgierigheid, een vraag, een twijfel, iets zwaar op je hart — ik zou het graag horen. Wat houdt je bezig?" },
   { code:'pl', flag:'🇵🇱', name:'Polski',      title:'Przyjdźcie do Mnie',  ph:'Zadaj pytanie...',           inst:'Respond entirely in Polish (Polski).',
-    open:"Cześć. Cieszę się, że tu jesteś. Cokolwiek cię tu przyprowadziło — pytanie, wątpliwość, coś ciężkiego na sercu — chętnie posłucham. Co masz na myśli?" },
+    open:"Cześć. Cieszę się, że tu jesteś. Cokolwiek cię tu przyprowadziło — ciekawość, pytanie, wątpliwość, coś ciężkiego na sercu — chętnie posłucham. Co masz na myśli?" },
   { code:'uk', flag:'🇺🇦', name:'Українська',  title:'Прийдіть до Мене',   ph:'Задайте питання...',         inst:'Respond entirely in Ukrainian (Українська).',
-    open:"Привіт. Радий, що ви тут. Що б вас не привело — питання, сумнів, щось важке на серці — я хотів би це почути. Що у вас на думці?" },
+    open:"Привіт. Радий, що ви тут. Що б вас не привело — цікавість, питання, сумнів, щось важке на серці — я хотів би це почути. Що у вас на думці?" },
   { code:'ro', flag:'🇷🇴', name:'Română',      title:'Veniți la Mine',     ph:'Puneți o întrebare...',      inst:'Respond entirely in Romanian (Română).',
-    open:"Bună. Mă bucur că ești aici. Orice te-a adus — o întrebare, o îndoială, ceva greu pe inimă — aș vrea să aud. Ce ai în minte?" },
+    open:"Bună. Mă bucur că ești aici. Orice te-a adus — curiozitate, o întrebare, o îndoială, ceva greu pe inimă — aș vrea să aud. Ce ai în minte?" },
   { code:'hr', flag:'🇭🇷', name:'Hrvatski',    title:'Dođite k Meni',      ph:'Postavite pitanje...',       inst:'Respond entirely in Croatian (Hrvatski).',
-    open:"Zdravo. Drago mi je da ste ovdje. Što god vas dovelo — pitanje, sumnja, nešto teško na srcu — rado bih čuo. Što vam je na umu?" },
+    open:"Zdravo. Drago mi je da ste ovdje. Što god vas dovelo — znatiželja, pitanje, sumnja, nešto teško na srcu — rado bih čuo. Što vam je na umu?" },
   { code:'he', flag:'🇮🇱', name:'עברית',       title:'בואו אליי',           ph:'שאל שאלה...',               inst:'Respond entirely in Hebrew (עברית). Use right-to-left text.', rtl:true,
-    open:"שלום. שמח שאתה כאן. מה שלא הביא אותך — שאלה, ספק, משהו כבד בלב — אשמח לשמוע. מה עובר לך בראש?" },
+    open:"שלום. שמח שאתה כאן. מה שלא הביא אותך — סקרנות, שאלה, ספק, משהו כבד בלב — אשמח לשמוע. מה עובר לך בראש?" },
   { code:'sw', flag:'🇰🇪', name:'Swahili',     title:'Njooni Kwangu',      ph:'Uliza swali...',             inst:'Respond entirely in Swahili (Kiswahili).',
-    open:"Habari. Ninafurahi uko hapa. Chochote kilichokuleta — swali, shaka, kitu kizito moyoni — ningependa kusikia. Unafikiria nini?" },
+    open:"Habari. Ninafurahi uko hapa. Chochote kilichokuleta — udadisi, swali, shaka, kitu kizito moyoni — ningependa kusikia. Unafikiria nini?" },
   { code:'id', flag:'🇮🇩', name:'Indonesia',   title:'Datanglah kepadaKu', ph:'Ajukan pertanyaan...',       inst:'Respond entirely in Indonesian (Bahasa Indonesia).',
-    open:"Halo. Senang kamu di sini. Apapun yang membawamu ke sini — pertanyaan, keraguan, sesuatu yang berat di hati — ingin mendengarnya. Apa yang ada di pikiranmu?" },
+    open:"Halo. Senang kamu di sini. Apapun yang membawamu ke sini — rasa ingin tahu, pertanyaan, keraguan, sesuatu yang berat di hati — ingin mendengarnya. Apa yang ada di pikiranmu?" },
 ];
 
 let currentLang = LANGS[0];
@@ -449,7 +433,7 @@ const msgsEl    = document.getElementById('messages');
 const inputEl   = document.getElementById('msg-input');
 const btnEl     = document.getElementById('send-btn');
 const langBtn   = document.getElementById('lang-btn');
-const langFlag  = document.getElementById('lang-flag');
+const langLabel = document.getElementById('lang-label');
 const dropdown  = document.getElementById('lang-dropdown');
 const hTitle    = document.getElementById('h-title');
 
@@ -458,7 +442,7 @@ LANGS.forEach(L => {
   const el = document.createElement('div');
   el.className = 'lang-opt';
   el.dataset.code = L.code;
-  el.innerHTML = `<span class="lang-flag">${L.flag}</span><span class="lang-name">${L.name}</span>`;
+  el.textContent = L.name;
   el.addEventListener('click', () => { selectLang(L.code); });
   dropdown.appendChild(el);
 });
@@ -481,7 +465,10 @@ function selectLang(code) {
   const L = LANGS.find(l => l.code === code);
   if (!L) return;
   currentLang = L;
-  langFlag.textContent = L.flag;
+  if (langLabel) {
+    langLabel.textContent = L.name;
+    langLabel.dataset.code = L.code.toUpperCase();
+  }
   if (hTitle) hTitle.textContent = L.title;
   inputEl.placeholder  = L.ph;
   document.documentElement.setAttribute('dir', L.rtl ? 'rtl' : 'ltr');
@@ -598,15 +585,6 @@ function addError(msg) {
   msgsEl.appendChild(d); scrollEnd();
 }
 function scrollEnd() { msgsEl.scrollTop = msgsEl.scrollHeight; }
-
-document.querySelectorAll('.swatch').forEach(s => {
-  s.addEventListener('click', () => {
-    const theme = s.dataset.theme;
-    document.documentElement.setAttribute('data-theme', theme);
-    document.querySelectorAll('.swatch').forEach(x => x.classList.remove('active'));
-    s.classList.add('active');
-  });
-});
 
 /* ── Contact Modal ─────────────────────────────────────────── */
 (function() {
