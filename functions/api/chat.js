@@ -337,13 +337,21 @@ no code blocks. Write in plain conversational prose only,
 as if speaking directly to a person in a warm conversation.`;
 
 // ── RAG: pull context from Great Physician's /retrieve endpoint ──────
-// Scripture-only retrieval. Counseling content (nouthetic, acbc,
-// user-upload) is written for believers in sanctification, so retrieving
-// it into an evangelistic conversation risks pulling Claude into
-// counseling-mode rather than evangelism. Scripture chunks are
-// universally appropriate — for skeptics, seekers, nominal Christians,
-// and believers alike — and ground the conversation in the very Word
-// that produces faith (Romans 10:17).
+// Pulls from two layers per turn:
+//   - 2 chunks from the Reformed/Puritan/Luther theological library
+//     (Puritan classics, Westminster + 1689 confessions, Luther's letters,
+//     Sibbes' Bruised Reed, Tripp devotionals). These are explicitly
+//     Christ-centered and apply equally to seekers and believers — exactly
+//     the voice the Christological Lens section calls for.
+//   - 4 chunks from the ESV Bible corpus (Scripture grounding).
+//
+// `user-upload` is excluded because those titles are the most
+// counseling-context-specific in the corpus and could land oddly in
+// pre-conversion evangelism. Everything else is fair game.
+//
+// Threshold 0.75 is higher than GP's /chat default (0.68) — only
+// high-confidence retrievals; better to surface nothing than something
+// tonally off.
 //
 // Fails open: if env vars are missing or the call errors, we proceed
 // with no context rather than break the chat.
@@ -358,10 +366,10 @@ async function fetchContextBlock(env, query) {
       },
       body: JSON.stringify({
         query,
-        yourContentChunks: 0,                                  // no counseling chunks
+        yourContentChunks: 2,
         scriptureChunks:   4,
         threshold:         0.75,
-        excludeSources:    ['nouthetic', 'acbc', 'user-upload'], // belt-and-suspenders
+        excludeSources:    ['user-upload'],
       }),
     });
     if (!res.ok) return '';
@@ -369,13 +377,13 @@ async function fetchContextBlock(env, query) {
     const sections = [];
     if (yourContent.length > 0) {
       sections.push(
-        '=== PRIMARY COUNSELING CONTENT ===\n' +
+        '=== REFORMED / PURITAN GROUNDING ===\n' +
         yourContent.map(d => `[${d.title || d.source}]\n${d.content}`).join('\n\n')
       );
     }
     if (scripture.length > 0) {
       sections.push(
-        '=== SUPPORTING SCRIPTURE ===\n' +
+        '=== SCRIPTURE (ESV) ===\n' +
         scripture.map(d => `[${d.title}]\n${d.content}`).join('\n\n')
       );
     }
