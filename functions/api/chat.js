@@ -369,7 +369,11 @@ async function fetchContextBlock(env, query) {
         yourContentChunks: 2,
         scriptureChunks:   4,
         threshold:         0.75,
-        excludeSources:    ['user-upload'],
+        // study-calvin (Calvin's Institutes) is excluded here — it's
+        // systematic/polemical theology, not the pastoral voice ComeToMe
+        // wants. It remains available via GP's /study endpoint for the
+        // counselor Research tab.
+        excludeSources:    ['user-upload', 'study-calvin'],
       }),
     });
     if (!res.ok) return '';
