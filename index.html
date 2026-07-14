@@ -31,13 +31,8 @@ html, body { height: 100%; background: var(--bg); color: var(--cream); font-fami
 /* ── Header ── */
 header { display: flex; align-items: center; gap: 12px; padding: 14px 20px 13px; padding-top: calc(14px + env(safe-area-inset-top)); background: var(--bg); border-bottom: 0.5px solid var(--border); flex-shrink: 0; position: relative; }
 .h-logo {
-  width: 44px; height: 44px; flex-shrink: 0;
-  border-radius: 50%;
-  object-fit: cover;
-  /* Soft radial mask so the logo's dark outer rim dissolves into the page bg —
-     no hard edge between artwork and background. */
-  -webkit-mask-image: radial-gradient(circle at center, #000 55%, transparent 95%);
-          mask-image: radial-gradient(circle at center, #000 55%, transparent 95%);
+  height: 40px; width: auto; flex-shrink: 0;
+  object-fit: contain;
 }
 .h-text { flex: 1; }
 .h-text h1 { font-family: var(--serif); font-weight: 300; font-size: 22px; color: var(--cream); line-height: 1; }
@@ -134,7 +129,7 @@ textarea::placeholder { color: var(--gold-dim); opacity: 0.7; font-weight: 400; 
 #messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 /* ── Mobile: bump up sizes for readability ── */
 @media (max-width: 680px) {
-  .h-logo { width: 56px; height: 56px; border-radius: 50%; }
+  .h-logo { height: 48px; }
   .h-text h1 { font-size: 26px; }
   .h-text p  { font-size: 13px; }
   header { padding: 16px 18px 14px; gap: 14px; padding-top: calc(16px + env(safe-area-inset-top)); }
@@ -300,7 +295,7 @@ textarea::placeholder { color: var(--gold-dim); opacity: 0.7; font-weight: 400; 
 <body>
 <div id="app">
   <header>
-    <img class="h-logo" src="come-to-me-icon.jpg" alt="Come to Me">
+    <img class="h-logo" src="come-to-me-logo.png" alt="Come to Me">
     <div class="h-text">
       <h1 id="h-title">Come to Me</h1>
     </div>
