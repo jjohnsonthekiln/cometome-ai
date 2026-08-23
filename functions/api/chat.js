@@ -1,6 +1,18 @@
 import { alertCounselors } from "./_alerts.js";
 import { detectCrisis } from "./_shared-blocks.js";
 import { CTM_PROTECTIONS, CTM_CRISIS_INSTRUCTION } from "./_ctm-blocks.js";
+import { dailyCap, breakerCount, breakerIncrement, breakerAlertOnce, BREAKER_MESSAGE } from "./_breaker.js";
+
+// A minimal SSE stream carrying one text delta, in the exact shape the client
+// already parses — used for replies that must not cost a model call.
+function sseText(text) {
+  const body =
+    `data: ${JSON.stringify({ type: 'content_block_delta', delta: { type: 'text_delta', text } })}\n\n` +
+    `data: [DONE]\n\n`;
+  return new Response(body, {
+    headers: { 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache', 'X-Accel-Buffering': 'no', ...CORS },
+  });
+}
 // functions/api/chat.js
 // Cloudflare Pages Function — handles POST /api/chat
 // Requires environment variable: ANTHROPIC_API_KEY
@@ -470,6 +482,18 @@ export async function onRequestPost(context) {
     // fires, the reply is instructed to name real emergency help up front.
     const isCrisis = detectCrisis(lastUserMsg?.content);
 
+    // Daily circuit breaker (KV-backed, see _breaker.js). Non-crisis messages
+    // are turned away calmly once the day's cap is reached; crisis messages
+    // always go through. Counted after the upstream call succeeds.
+    const cap = dailyCap(env);
+    if (cap > 0 && !isCrisis) {
+      const count = await breakerCount(env);
+      if (count >= cap) {
+        context.waitUntil(breakerAlertOnce(env, count, cap));
+        return sseText(BREAKER_MESSAGE);
+      }
+    }
+
     // System prompt as cached blocks: the large static prompt (mission +
     // theology + shared protections) is one cached block — served at ~10% of
     // input cost on every later message — and the small per-request parts
@@ -503,6 +527,8 @@ export async function onRequestPost(context) {
         headers: { 'Content-Type': 'text/plain', ...CORS },
       });
     }
+
+    context.waitUntil(breakerIncrement(env));
 
     return new Response(upstream.body, {
       headers: {
