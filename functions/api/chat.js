@@ -1,7 +1,15 @@
 import { alertCounselors } from "./_alerts.js";
+import { detectCrisis } from "./_shared-blocks.js";
+import { CTM_PROTECTIONS, CTM_CRISIS_INSTRUCTION } from "./_ctm-blocks.js";
 // functions/api/chat.js
 // Cloudflare Pages Function — handles POST /api/chat
 // Requires environment variable: ANTHROPIC_API_KEY
+//
+// Shared protections (doctrinal commitments, Scripture rule, resource
+// guardrail, crisis detection + instruction) come from _shared-blocks.js,
+// which is GENERATED from the Great Physician backend repo
+// (shared-prompt/blocks.json). Edit there, regenerate, and run each app's
+// eval gate. ComeToMe's own mission/tone/flow below stays its own.
 
 const CORS = {
   'Access-Control-Allow-Origin':  '*',
@@ -458,9 +466,19 @@ export async function onRequestPost(context) {
     const lastUserMsg = [...messages].reverse().find(m => m.role === 'user');
     const contextBlock = await fetchContextBlock(env, lastUserMsg?.content);
 
-    const systemWithLang = SYSTEM_PROMPT
-      + '\n\n---\n\nLANGUAGE INSTRUCTION\n' + langInstruction
-      + contextBlock;
+    // Crisis: detected on the latest user message (shared detector); when it
+    // fires, the reply is instructed to name real emergency help up front.
+    const isCrisis = detectCrisis(lastUserMsg?.content);
+
+    // System prompt as cached blocks: the large static prompt (mission +
+    // theology + shared protections) is one cached block — served at ~10% of
+    // input cost on every later message — and the small per-request parts
+    // (language, retrieved context, crisis instruction) follow uncached.
+    const system = [
+      { type: 'text', text: SYSTEM_PROMPT + CTM_PROTECTIONS, cache_control: { type: 'ephemeral' } },
+      { type: 'text', text: '---\n\nLANGUAGE INSTRUCTION\n' + langInstruction + contextBlock },
+    ];
+    if (isCrisis) system.push({ type: 'text', text: CTM_CRISIS_INSTRUCTION });
 
     const upstream = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -472,7 +490,7 @@ export async function onRequestPost(context) {
       body: JSON.stringify({
         model:      'claude-sonnet-4-6',
         max_tokens: 1024,
-        system:     systemWithLang,
+        system,
         messages,
         stream:     true,
       }),
